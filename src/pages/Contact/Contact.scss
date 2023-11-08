@@ -1,0 +1,68 @@
+.Contact{
+    height: 500px;
+    width: auto;
+    background-color: rgb(77, 174, 238);
+    margin: 40px;
+    border-radius: 5px;
+}
+
+
+.content {
+    width: auto;
+    height: 400px;
+}
+
+.slick-slide img {
+    margin: auto;
+    height: 100%;
+}
+
+.slide-img{
+    height: 400px;
+    width: 100px;
+}
+
+button.slick-prev {
+    left: 100px;
+    top:250px;
+    z-index: 2;
+}
+
+button.slick-next {
+    right: 100px;
+    top: 250px;
+    z-index: 2;
+}
+
+li.slick-active {
+    > button::before {
+        color: rgb(72, 43, 235) !important;
+    }
+}
+
+button.slick-prev:before,
+button.slick-next:before {
+    font-size: 70px;
+    position: sticky;
+    color: rgb(72, 43, 235);
+}
+
+div.slick-track {
+    position: relative;
+    top: 100px;
+    left: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul.slick-dots {
+    position: absolute;
+    bottom: -50px;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+}

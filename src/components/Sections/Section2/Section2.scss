@@ -1,0 +1,108 @@
+.Section2{
+    height: auto;
+    width: auto;
+    background-color: #727191c4; //727191 
+    border: 5px solid #2E2E38;
+    margin: 40px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    .card-favorites{
+        width: 1000px;
+        height: auto;
+        background-color: #3b4098d3;
+       /*  margin: 30px; */
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-wrap: wrap;
+        .icon-star{
+            margin: 20px;
+            font-size: 50px;
+            color: #1F2047;
+            .star{
+                font-size: 70px;
+            }
+        }
+        .card{
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-direction: row;
+            .img-list{
+                display: flex;
+                margin-top: 30px;
+                width: 180px;
+                height: 150px;
+                border-radius: 10px;
+                margin-left: 30px;
+            }
+            .info{
+                flex-direction: column;
+                margin-left: 10px;
+                align-items: flex-start;
+                margin-right: 20px;
+                .title{
+                    text-align: left;
+                    color: #E3ECFC;
+                }
+                .description{
+                    text-align: left;
+                    color: #E3ECFC;
+                }
+            }
+        }
+    }
+    .card-add{
+        width: 1000px;
+        height: auto;
+        background-color: #3b4098d3;
+       /*  margin: 30px; */
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 50px;
+        .icon-add{
+            margin: 20px;
+            font-size: 50px;
+            color: #1F2047;
+            align-items: flex-start;
+            .add {
+                font-size: 70px;
+            }
+        }
+        .card-add2{
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-direction: row;
+            .img-list-add{
+                display: flex;
+                margin-top: 30px;
+                width: 180px;
+                height: 150px;
+                border-radius: 10px;
+                margin-left: 30px;
+            }
+            .info-add{
+                flex-direction: column;
+                margin-left: 10px;
+                margin-right: 20px;
+                align-items: flex-start;
+                .title-add{
+                    text-align: left;
+                    color: #E3ECFC;
+                }
+                .description-add{
+                    text-align: left;
+                    color: #E3ECFC;
+                }
+            }
+        }
+    }
+}

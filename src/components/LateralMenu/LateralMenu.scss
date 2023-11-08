@@ -1,0 +1,33 @@
+.LateralMenu{
+    list-style: none;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    display: flex;
+    z-index: 100;
+    width: 50px;
+    height: 250px;
+    position: fixed;
+    top: 200px;
+    left: 0;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    background-color:#a0a2bdef ;
+    li {
+        list-style: none;
+    }
+}
+ul{
+    padding: 0;
+}
+.svg_icon{
+    margin: 20px 0 20px 0;
+    height: 40px;
+    width: 40px;
+    fill: #2E2E38;
+    &:hover{
+        fill: #C7CBDA;
+        cursor: pointer;
+    }
+}

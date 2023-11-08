@@ -1,0 +1,86 @@
+.content-services-list {
+    width: 90%;
+    height: 100%;
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+}
+
+.grid1-style{
+    background-color: rgb(122, 183, 241);
+}
+
+.grid2-style{
+    background-color: rgb(235, 136, 210);
+}
+
+.grid3-style{
+    background-color: rgb(179, 133, 240);
+}
+
+.grid4-style{
+    background-color: rgb(101, 85, 238);
+    .grid-container-image{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .img-content-grid{
+            background-color: rgb(199, 213, 240);
+            img{
+                width: 300px;
+                height: 300px;
+                border-radius: 5px;
+                margin: 5px;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+            .button-fav-group{
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                align-content: flex-end;
+                .btn-icon{
+                    margin: 5px;
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            .modal{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                flex-wrap: wrap;
+                .modal-box{
+                    display: flex;
+                    flex-direction: column;
+                    top: 50%;
+                    left: 50%;
+                    width: 400px;
+                    transform: translate(-50%, -50%);
+                    border: 0 0 24px rgba(0, 0, 0, 0.5);
+                    box-shadow: 24px;
+                    padding: 20px;
+                    .img-selected-service {
+                        height: auto;
+                        width: 200px;
+                    }
+                }
+            }
+        }
+    }
+    .text-content-grid{
+        background-color: rgb(116, 211, 214);
+        p{
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+    }
+}
+
+

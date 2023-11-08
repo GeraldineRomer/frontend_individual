@@ -1,0 +1,95 @@
+/* Estilos generales del footer */
+.Footer {
+  position: absolute;
+  bottom: -1;
+  left: 0;
+  width: 100%; /* Ocupará todo el ancho de la pantalla */
+  background-image: url('./../../assets/img/fondofooter.jpg'); /* Ruta de la imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #727191;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 20px; /* Espacio interno para contenido del footer */
+  padding-bottom: 20px;
+  z-index: -1;
+  .card{
+    background: #7271917e;
+    width: 96%;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 10px;
+    /* Estilos para la sección de ubicación */
+    .Location {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .Svg {
+        height: 40px;
+        width: 40px;
+        margin: 10px;
+        fill: #ECEEF3;
+      }
+    }
+    /* Estilos para los iconos SVG en la sección de ubicación */
+    label{
+      margin: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ECEEF3;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    
+      /* Estilos para la sección de redes sociales */
+      .SocialMedia {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Estilos para los iconos de Facebook en la sección de redes sociales */
+        .Facebook {
+          height: 55px;
+          width: 55px;
+        }
+        /* Estilos para los iconos SVG en la sección de redes sociales */
+        .Svg {
+          height: 40px;
+          width: 40px;
+          margin: 10px;
+          color:  #ECEEF3;
+        }
+      }
+      .Privacy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .Logo{
+          margin: 10px;
+          height: 80px;
+          width: 70px;
+        }
+        .conf-button{
+          margin: 20px;
+          .privacy-button{
+            margin: 20px;
+            font-size: 15px;
+            border-radius: 2px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            right: 120px;
+            top: 60px;
+            text-decoration: underline;
+          }
+        }
+      }
+  }
+}
+
+
+
+
+/* Estilos para la sección de política de privacidad */
+
+
+

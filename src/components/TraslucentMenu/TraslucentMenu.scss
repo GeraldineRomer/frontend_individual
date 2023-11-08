@@ -1,0 +1,87 @@
+.navbar-traslucent-style {
+    nav {
+        position: fixed;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        padding: 16px 20px 30px 20px;
+        display: flex;
+        align-items: center;
+        backdrop-filter: blur(10px) brightness(0.8);
+        text-shadow: 0 0 10px rgb(29, 28, 28);
+        color: white;
+        font-size: 14px;
+        &.mask {
+            top: 150px;
+            mask-image: linear-gradient(rgb(37, 35, 35) 70%, transparent);
+            &.visible{
+                transform: translateY(0);
+                transition: transform 0.3s ease-in-out;
+                display: flex;
+            }
+            &.is-hidden {
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-in-out;
+                display: flex;
+                position: absolute;
+                left: 45px;
+                top: 25px;
+                align-items: flex-start;
+                flex-direction: column;
+                background-color: beige;
+                height: 200px;
+                justify-content: center;
+            }
+        }
+        @media (min-width: 740px){
+            top: 0;
+            padding: 20px 20px 30px 20px;
+            font-size: 16px;
+        }
+    }
+    a{
+        color: inherit;
+        text-decoration: none;
+        &:hover,
+        &:focus{
+            text-decoration: underline;
+        }
+    }
+    .menu-list {
+        list-style-type: none;
+        margin-left: auto;
+        margin-right: 80px;
+        display: none;
+        @media (min-width: 740px){
+            display: flex;
+        }
+        li{
+            margin-left: 20px;
+        }
+    }
+    .menu-hide-navbar {
+        display: inline-block;
+        padding: 0;
+        font-size: 0;
+        background: none;
+        border: none;
+        margin-left: 20px;
+        filter: drop-shadow(0 0 10px rgb(46, 46, 46));
+        &::before{
+            content: url('data:image/svg+xml, %3Csvg%20xmlns=%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox=%270%200%2024.8%2018.92%27%20width=%2724.8%27%20height=%2718.92%27%3E%3Cpath%20d=%27M23.8,9.46H1m22.8,8.46H1M23.8,1H1%27%20fill=%27none%27%20stroke=%27%23fff%27%20stroke-linecap=%27round%27%20stroke-width=%272%27%2F%3E%3C%2Fsvg%3E');
+        }
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 740px){
+            display: none;
+        }
+    }
+    img {
+        width: 100%;
+        min-height: 200px;
+        object-fit: cover;
+    }
+}
+

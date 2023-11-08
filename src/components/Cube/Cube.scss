@@ -1,0 +1,166 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .cube {
+        width: 20px;
+        height: 20px;
+        transform-style: preserve-3d;
+        animation: spin 15s infinite linear;
+        position: fixed;
+        bottom: 100px;
+        right: 100px;
+        div {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 0.8;
+        }
+        .front {
+            transform: translateZ(25px);
+            background: linear-gradient(45deg, rgb(148, 129, 255), rgb(68, 53, 156));
+        }
+        .back {
+            transform: translateZ(-25px);
+            background: linear-gradient(45deg, rgb(132, 116, 224), rgb(91, 71, 204));
+        }
+        .top {
+            transform: rotateX(90deg) translateZ(25px);
+            background: linear-gradient(45deg, rgb(72, 56, 160), rgb(62, 40, 189));
+        }
+        .bottom {
+            transform: rotateX(90deg) translateZ(-25px);
+            background: linear-gradient(45deg, rgb(154, 143, 214), rgb(93, 74, 201));
+        }
+        .left {
+            transform: rotateY(90deg) translateZ(25px);
+            background: linear-gradient(45deg, rgb(93, 73, 206), rgb(95, 74, 216));
+        }
+        .right {
+            transform: rotateY(90deg) translateZ(-25px);
+            background: linear-gradient(45deg, rgb(104, 87, 197), rgb(85, 66, 190));
+        }
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+
+.options {
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: 85%;
+    z-index: 1;
+    .cube2{
+        width: 50px;
+        height: 50px;
+        transform-style: preserve-3d;
+        transform: rotateX(347deg) rotateY(341deg);
+        /* animation: spin 8s infinite linear; */
+        position: fixed;
+        top: 350px;
+        right: 100px;
+        z-index: 1;
+        div {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.8;
+        }
+        .front {
+            height: 72px;
+            transform: translateZ(36px) ;
+            background: linear-gradient(45deg, rgb(107, 110, 255), rgb(6, 2, 255));
+            & .flexbox{
+                display: flex;
+                height: 24px;
+                width: 100px;
+                background-color: rgba(255, 0, 0, 0.192);
+                opacity: 0.8;
+                justify-content: center;
+                color: azure;
+                border-color: rgba(255, 0, 0, 0.007);
+                &:hover{
+                    cursor: pointer;
+                    background-color: rgba(111, 22, 228, 0.938);
+                    transform: scale(1.1);
+                    
+                    border-radius: 10px;
+                }
+            }
+            & .contact{
+                display: flex;
+                height: 24px;
+                width: 100px;
+                background-color: rgba(255, 0, 0, 0.192);
+                opacity: 0.8;
+                justify-content: center;
+                color: azure;
+                border-color: rgba(255, 0, 0, 0.007);
+                &:hover{
+                    cursor: pointer;
+                    background-color: rgba(111, 22, 228, 0.938);
+                    transform: scale(1.1);
+                    border-radius: 10px;
+                }
+            }
+            & .products{
+                display: flex;
+                height: 24px;
+                width: 100px;
+                background-color: rgba(255, 0, 0, 0.192);
+                opacity: 0.8;
+                justify-content: center;
+                color: azure;
+                border-color: rgba(255, 0, 0, 0.007);
+                &:hover{
+                    cursor: pointer;
+                    background-color: rgba(111, 22, 228, 0.938);
+                    transform: scale(1.1);
+                    border-radius: 10px;
+                }
+            }
+        }
+        .back {
+            height: 72px;
+            transform: translateZ(-33px);
+            background: linear-gradient(45deg, rgb(107, 110, 255), rgb(6, 2, 255));
+        }
+        .top {
+            height: 72px;
+            transform: rotateX(90deg) translateZ(36px);
+            background: linear-gradient(90deg, rgb(107, 110, 255), rgb(6, 2, 255));
+        }
+        .bottom {
+            height: 72px;
+            transform: rotateX(90deg) translateZ(-36px);
+            background: linear-gradient(45deg, rgb(107, 110, 255), rgb(6, 2, 255));
+        }
+        .left {
+            height: 72px;
+            width: 59px;
+            transform: rotateY(90deg) translateZ(69px);
+            background: linear-gradient(45deg, rgb(107, 110, 255), rgb(6, 2, 255));
+        }
+        .right {
+            height: 72px;
+            width: 63px;
+            transform: rotateY(90deg) translateZ(-30.5px);
+            background: linear-gradient(90deg, rgb(107, 110, 255), rgb(6, 2, 255));
+        }
+        
+    }
+    
+    
+}
+
+@keyframes spin{
+    0% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
