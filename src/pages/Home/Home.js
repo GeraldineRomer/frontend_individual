@@ -8,19 +8,18 @@ import { Section3 } from '../../components/Sections/Section3/Section3';
 import { LateralMenu } from '../../components/LateralMenu/LateralMenu';
 import { TraslucentMenu } from '../../components/TraslucentMenu/TraslucentMenu';
 import {Footer} from '../../components/Footer/Footer'
-import Background from '../../assets/img/fondo.jpg';
 
 export const Home = () => {
     return (
         <div className="Home">
             <div className='Content'>
-                <Cube />
+                {/* <Cube /> */}
                 <MenuCube />
                 {/* <TraslucentMenu/> */}
                 <Section1/>
                 <Section2 />
-                <Section3/>
-                <LateralMenu/>
+                {/* <Section3/> */}
+                {/* <LateralMenu/> */}
                 <Footer/>
                {/*  <img src={Background} className='background'></img> */}
             </div>

@@ -19,7 +19,7 @@ function CustomTabPanel(props) {
     >
         {value === index && (
         <Box sx={{ p: 4 }}>
-            <Typography style={{fontFamily:'Timeless', fontSize: '18px'}}>{children}</Typography>
+            <Typography style={{fontFamily:'MontaguSlab', fontSize: '18px'}}>{children}</Typography>
         </Box>
         )}
     </div>
@@ -61,22 +61,22 @@ function a11yProps(index) {
                     </Box>
                     <CustomTabPanel value={value} index={0}>
                         De conformidad con lo dispuesto en la Ley 1581 de 2012 y el Decreto 1377 de 2013, declaro que entrego de forma libre y 
-                        voluntaria mis Datos Personales, que he leído y aceptado estos términos y condiciones de manera previa y autorizo a CosmoNotas de Colombia S.A.S. (en adelante “MCOL”), para que, como Responsable, realice la recolección y tratamiento de mis datos personales para las finalidades indicadas más adelante y de conformidad con la Política de tratamiento de la información de MCOL
+                        voluntaria mis Datos Personales, que he leído y aceptado estos términos y condiciones de manera previa y autorizo a Books&Books de Colombia S.A.S. (en adelante “MCOL”), para que, como Responsable, realice la recolección y tratamiento de mis datos personales para las finalidades indicadas más adelante y de conformidad con la Política de tratamiento de la información de MCOL
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
                         <div> 
-                            CosmoNotas de Colombia S.A.S. no otorga premios o realiza juegos promocionales relacionados con sus vehículos. Por tanto, se advierte a los clientes, prospectos y al público en general que la compañía no es promotora, anunciante ni avala ninguna promoción de esta naturaleza, particularmente aquellas que puedan ser enviadas a través de mensajes SMS o de cualquier otro medio con enlaces a nuestro Sitio Web.
+                            Books&Books de Colombia S.A.S. no otorga premios o realiza juegos promocionales relacionados con sus vehículos. Por tanto, se advierte a los clientes, prospectos y al público en general que la compañía no es promotora, anunciante ni avala ninguna promoción de esta naturaleza, particularmente aquellas que puedan ser enviadas a través de mensajes SMS o de cualquier otro medio con enlaces a nuestro Sitio Web.
                         </div>
                         <div>
-                            En caso recibir este tipo de mensaje, debe tener en cuenta que se trata de una actividad no autorizada por nuestra marca y posiblemente fraudulenta. De recibir este tipo de mensajes, puede contactarnos al Teléfono: (+57) (1) 2357529, Línea Nacional 01 8000 112 595 o al correo electrónico: servicioalcliente@CosmoNotas.co. 
+                            En caso recibir este tipo de mensaje, debe tener en cuenta que se trata de una actividad no autorizada por nuestra marca y posiblemente fraudulenta. De recibir este tipo de mensajes, puede contactarnos al Teléfono: (+57) (1) 2357529, Línea Nacional 01 8000 112 595 o al correo electrónico: servicioalcliente@Books&Books.co. 
                         </div>
                         <div>
-                            Teniendo en cuenta lo anterior, CosmoNotas de Colombia S.A.S. no será responsable de cualquier promoción, concurso, sorteo o evento que sea publicado fuera de sus medios oficiales de comunicación.
+                            Teniendo en cuenta lo anterior, Books&Books de Colombia S.A.S. no será responsable de cualquier promoción, concurso, sorteo o evento que sea publicado fuera de sus medios oficiales de comunicación.
                         </div>
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={2}>
                         <div>
-                            De conformidad con lo dispuesto en la Ley 1581 de 2012 y el Decreto 1377 de 2013, declaro que entrego de forma libre y voluntaria mis Datos Personales y con mi aceptación y/o firma autorizo a CosmoNotas de Colombia S.A.S. (en adelante "MCC)L"), para que, como Responsable, realice Ia recolección y tratamiento de mis datos personales para las finalidades indicadas más adelante y de conformidad con la Política de tratamiento de la información de MCOL
+                            De conformidad con lo dispuesto en la Ley 1581 de 2012 y el Decreto 1377 de 2013, declaro que entrego de forma libre y voluntaria mis Datos Personales y con mi aceptación y/o firma autorizo a Books&Books de Colombia S.A.S. (en adelante "MCC)L"), para que, como Responsable, realice Ia recolección y tratamiento de mis datos personales para las finalidades indicadas más adelante y de conformidad con la Política de tratamiento de la información de MCOL
                         </div>
                         <div>
                             Información demográfica y socioeconómica. Por ejemplo, edad, género, educación, profesión, ocupación, salario, ingreso familiar, actividad económica preferencias e intereses.
@@ -84,10 +84,10 @@ function a11yProps(index) {
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={3}>
                         <div>
-                            CosmoNotas DE COLOMBIA S.A.S. (en adelante, CosmoNotas) es responsable de los Datos Personales e información que le suministran sus clientes, prospectos de clientes proveedores, contratistas, y visitantes (en adelante, los Titulares).
+                            Books&Books DE COLOMBIA S.A.S. (en adelante, Books&Books) es responsable de los Datos Personales e información que le suministran sus clientes, prospectos de clientes proveedores, contratistas, y visitantes (en adelante, los Titulares).
                         </div>
                         <div>
-                            En la presente Política de Tratamiento se establecen las finalidades, medidas y procedimientos de las Bases de Datos de CosmoNotas así como los mecanismos con que los Titulares cuentan para conocer, actualizar, rectificar, suprimir los datos suministrados o revocar la autorización que se otorga con la aceptación de la presente Política de Tratamiento.
+                            En la presente Política de Tratamiento se establecen las finalidades, medidas y procedimientos de las Bases de Datos de Books&Books así como los mecanismos con que los Titulares cuentan para conocer, actualizar, rectificar, suprimir los datos suministrados o revocar la autorización que se otorga con la aceptación de la presente Política de Tratamiento.
                         </div>
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={4}>

@@ -14,15 +14,30 @@ import { Grid } from '@mui/material'
 export const Footer = () => {
     const privacy = () => {
         console.log('Di click en privacidad');
-        window.open('../Privacy','_self')
+        window.location.href = '/privacy';
+        /* window.open('../Privacy','_self') */
     }
     return (
         <div className='Footer'>
             <div className='card'>
                 <div className = 'Location'>
                     <label>Ubicación y contacto:</label>
-                    <img src={Location} alt="Location" className='Svg' style={{color: '#ECEEF3'}}/>
-                    <img src={Contact} alt="Contact" className='Svg'/>
+                    <Grid container spacing={0}>
+                        <Grid item xs={6} md={2}>
+                            <img src={Location} alt="Location" className='Svg' style={{color: '#ECEEF3'}}/>
+                        </Grid>
+                        <Grid item xs={6} md={10}>
+                            <h6>Antigua Estación del Ferrocarril Manizales - Caldas - Colombia</h6>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={0}>
+                        <Grid item xs={6} md={2}>
+                            <img src={Contact} alt="Contact" className='Svg'/>
+                        </Grid>
+                        <Grid item xs={6} md={10}>
+                            <h6>booksandbooks@gmail.com</h6>
+                        </Grid>
+                    </Grid>
                 </div>
                 <div className='SocialMedia'>
                     <label>Redes sociales:</label>

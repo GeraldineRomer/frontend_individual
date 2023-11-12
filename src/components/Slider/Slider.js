@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React, { useRef, useState } from 'react';
+import '../../App.scss';
 import './Slider.scss';
-import Modal from '@mui/material/Modal';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+import { Button, Grid, Fab } from '@mui/material';
+
+/* Modal */
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Fab, Grid } from '@mui/material';
+import Modal from '@mui/material/Modal';
 import { Add, Star } from '@mui/icons-material';
 import { useFavorites } from '../FavoriteList/FavoriteList';
 import { useAdds } from '../AddList/AddList';
-import '../../App.scss';
+
+/* aqui van las importaciones necesarias para el modal */
+/* import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { Fab, Grid } from '@mui/material';
+ */
 
 const style = {
     position: 'absolute',
@@ -19,7 +30,6 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 650,
     bgcolor: 'background.paper',
-    border: '2px solid #707EE4',
     boxShadow: 24,
     p: 4,   
     justifyContent: 'center',
@@ -27,36 +37,32 @@ const style = {
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '10px',
-    background: 'linear-gradient(to right,#45488D,#31356F)',
+    background: 'linear-gradient(to right bottom ,#e383aa , #a82e53 70%)',
     borderColor: '#707EE4',
-    overflowY: 'auto', // Agrega una barra de desplazamiento vertical
-    maxHeight: '80vh',
-    maxWidth: '80vw',
-    fontFamily: 'Timeless'
+    maxHeight: '85vh',
+    maxWidth: '100vw',
+    overflow: 'auto',
+    flexWrap: 'unwrap'
 };
 
-const SliderComponent = ({ noticias }) => {
-    const sliderSettings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 4000
+
+const Slider = ({ libros }) => {
+    const [isFirstSlide, setIsFirstSlide] = useState(true);
+
+    const handleSlideChange = (swiper) => {
+        setIsFirstSlide(swiper.activeIndex === 0);
     };
 
-    const [openModal, setOpenModal] = useState(false);
-    const [selectedNotice, setSelectedNotice] = useState(null);
+    const [open, setOpen] = React.useState(false);
+    const [selectedLibro, setSelectedLibro] = useState(null);
 
-    const handleOpen = (noticia) => {
-        setSelectedNotice(noticia);
-        setOpenModal(true);
+    const handleOpen = (libro) => {
+        setSelectedLibro(libro)
+        setOpen(true)
     };
-
     const handleClose = () => {
-        setSelectedNotice(null);
-        setOpenModal(false);
+        setSelectedLibro(null)
+        setOpen(false)
     };
 
     const { addFavorite } = useFavorites();
@@ -75,64 +81,88 @@ const SliderComponent = ({ noticias }) => {
     };
 
     return (
-        <div className="slider-container">
-        <Slider {...sliderSettings} >
-            {noticias.map((noticia, index) => (
-                <div key={index}>
-                    <Grid container spacing={0}>
-                        <Grid item xs={6} md={8}>
-                            <img src={noticia.image} alt={`Imagen ${index + 1}`} className="images" />
+        <>
+            <Swiper
+                slidesPerView={4}
+                centeredSlides={true}
+                spaceBetween={30}
+                grabCursor={true}
+                pagination={{
+                    clickable: true,
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+                onSlideChange={(swiper) => handleSlideChange(swiper)}
+            >
+                <div className={`info-title ${isFirstSlide ? '' : 'hidden'}`}>
+                    <label className='title'>Bienvenido a</label>
+                    <label className='title'>Books&Books</label>
+                    <p className='description'>Aquí podrás encontrar los mejores libros de cualquier género a los mejores precios</p>
+                </div>
+                {libros.map((libro, index) => (
+                    <SwiperSlide key={index}>
+                        <Grid container spacing={0}>
+                            <Grid item xs={12} md={12}>
+                                <div className='img-book'>
+                                    <img src={libro.image} alt={`Portada de ${libro.title}`} />
+                                </div>
+                            </Grid>
+                            <Grid item xs={12} md={12}>
+                                <div className='info'>
+                                    <label>{libro.title}</label>
+                                    <label>{libro.author}</label>
+                                    <label>{libro.price}</label>
+                                    <Button variant="contained" className='btn' onClick={() => handleOpen(libro)}>Ver más</Button>
+                                </div>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={6} md={4}>
-                            <label className="title">{noticia.title}</label>
-                            <label className="subtitle">{noticia.subtitle}</label>
-                            <div className="conf-button">
-                                <button className="button-more" onClick={() => handleOpen(noticia)}>
-                                    Ver más
-                                </button>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            <div className='modal'>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        {selectedLibro && (
+                            <div className='box'>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6} md={6}>
+                                        <img src={selectedLibro.image} alt={`Portada de ${selectedLibro.title}`} style={{ width: '100%', height:'auto' , boxShadow:'0 0 10px rgba(0, 0, 0, 0.2)', justtifyContent: 'center', marginTop:'10px', marginBottom:'10px', position: 'relative', top: '60px'}}/>
+                                        <div className="button-fav-group">
+                                            <Fab className="btn-icon" color="" aria-label="Favorite icon" onClick={() => handleAddToFavorite(selectedLibro)}>
+                                                <Star/>
+                                            </Fab>
+                                            <Fab className="btn-icon" color="" aria-label="Add icon" onClick={() => handleAddToAdd(selectedLibro)}>
+                                                <Add/>
+                                            </Fab>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={6} md={6}>
+                                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{ textAlign: 'center' , margin:'5px', fontSize:'20px', fontFamily: 'MontaguSlab', fontWeight: 'normal',  color: '#FCF3F7', top: '60px', position: 'relative'}}>
+                                            {selectedLibro.title}
+                                        </Typography>
+                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'center' , margin:'5px', fontSize:'12px', fontFamily: 'MontaguSlab', fontWeight: 'lighter',  color: '#FCF3F7', position: 'relative', top: '60px'}}>
+                                            {selectedLibro.author}
+                                        </Typography>
+                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'center' , margin:'5px', fontSize:'12px', fontFamily: 'MontaguSlab', fontWeight: 'lighter',  color: '#FCF3F7', position: 'relative', top: '60px'}}>
+                                            {selectedLibro.price}
+                                        </Typography>
+                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'justify' , margin:'5px', fontSize:'15px', fontFamily: 'MontaguSlab', fontWeight: 'lighter',  color: '#FCF3F7', position: 'relative', top: '60px',  marginBottom:'10px'}}>
+                                            {selectedLibro.description}
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
                             </div>
-                        </Grid>
-                    </Grid>
-                </div>
-            ))}
-        </Slider>
-        <Modal
-            open={openModal}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-            {selectedNotice && (
-                <div style={{borderRadius: '10px'}}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" style={{ textAlign: 'center' ,  fontWeight: 'bold' , marginBottom:'20px', marginTop: '60px', fontFamily: 'Timeless-Bold', color: '#E3ECFC'}} >
-                        {selectedNotice.title}
-                    </Typography>
-                    <img
-                        src={selectedNotice.image}
-                        alt={selectedNotice.title}
-                        style={{ width: '400px', height: 'auto', borderRadius: '5px' , boxShadow:'0 0 10px rgba(0, 0, 0, 0.2)', justtifyContent: 'center', position: 'relative', left: '20%', marginBottom:'15px'}}
-                    />
-                    <Typography id="modal-modal-subtitle" variant="h6" component="h2" style={{ textAlign: 'center' , margin:'5px', fontSize:'13px', fontFamily: 'Timeless', fontStyle: 'italic', fontWeight: 'lighter',  color: '#CCDAF9'}}>
-                        {selectedNotice.subtitle}
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'justify' , margin:'5px', fontSize:'15px', fontFamily: 'Timeless',  color: '#CCDAF9'}}>
-                        {selectedNotice.description}
-                    </Typography>
-                    <div className="button-fav-group">
-                        <Fab className="btn-icon" color="" aria-label="Favorite icon" onClick={() => handleAddToFavorite(selectedNotice)}>
-                            <Star/>
-                        </Fab>
-                        <Fab className="btn-icon" color="" aria-label="Add icon" onClick={() => handleAddToAdd(selectedNotice)}>
-                            <Add/>
-                        </Fab>
-                    </div>
-                </div>
-            )}
-            </Box>
-        </Modal>
-        </div>
+                        )}
+                    </Box>
+                </Modal>
+            </div>
+        </>
     );
 };
 
-export default SliderComponent;
+export default Slider;
