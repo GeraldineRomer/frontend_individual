@@ -27,7 +27,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 10px;
+            margin: 0;
             font-size: 30px;
             font-weight: normal;
             color: #FCF3F7;
@@ -37,7 +37,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: row;
-            margin: 30px;
+            margin: 20px;
             flex-wrap: wrap;
             .input{
                 color: #FCF3F7;
@@ -104,6 +104,27 @@
                 text-decoration: none;
                 font-weight: bold;
                 cursor: pointer;
+            }
+        }
+        .form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            .checkbox{
+                color: #FCF3F7;
+                font-family: MontaguSlab;
+                label{
+                    color: #FCF3F7;
+                    font-family: MontaguSlab;
+                }
+            }
+            .icon{
+                color: #FCF3F7;
+            }
+            a{
+                color: #FCF3F7;
+                text-decoration: underline;
             }
         }
     }

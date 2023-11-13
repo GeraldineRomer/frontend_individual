@@ -1,16 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.scss';
 import Box from '@mui/material/Box';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Footer } from '../../components/Footer/Footer';
 import { Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Auth } from '../../api';
+import { useAuth } from '../../hooks';
+
+const authController = new Auth();
 
 export const Login = () => {
+    const { login } = useAuth();
+    const [formData, setFormData] = useState  ({ email: "", password: "" });
+    const [error, setError] = useState("");
+
+    const handleInputChange = (field, value) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            [field]: value,
+        }));
+    };
+
+    const onFinish = async () => {
+        console.log("Received values of form: ", formData);
+        try {
+            setError("");
+            const response = await authController.login(formData);
+            authController.setAccessToken(response.access);
+            login(response);
+            window.location.href = "/admin/";
+            console.log(response);
+        } catch (error) {
+            setError("Error en el servidor con validación de formato de evolución");
+        }
+    };
+
     const [showPassword, setShowPassword] = React.useState(false);
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
@@ -35,6 +62,7 @@ export const Login = () => {
                                 id="outlined-adornment-email"
                                 type='email'
                                 className='input'
+                                onChange={(e) => handleInputChange("email", e.target.value)}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -55,6 +83,7 @@ export const Login = () => {
                                 id="outlined-adornment-password"
                                 type={showPassword ? 'text' : 'password'}
                                 className='input'
+                                onChange={(e) => handleInputChange("password", e.target.value)}
                                 endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -76,7 +105,7 @@ export const Login = () => {
                     <a href='#'>¿Olvidaste tu contraseña?</a>
                 </div>
                 <div className='btn-div-login'>
-                    <Button variant="contained" className='btn-login'>Iniciar Sesión</Button>
+                    <Button variant="contained" className='btn-login' onClick={onFinish}>Iniciar Sesión</Button>
                 </div>
                 <div className='registro'>
                     <label>¿No tienes una cuenta?</label>

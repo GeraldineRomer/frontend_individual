@@ -99,25 +99,29 @@ const Slider = ({ libros }) => {
                     <label className='title'>Books&Books</label>
                     <p className='description'>Aquí podrás encontrar los mejores libros de cualquier género a los mejores precios</p>
                 </div>
-                {libros.map((libro, index) => (
-                    <SwiperSlide key={index}>
-                        <Grid container spacing={0}>
-                            <Grid item xs={12} md={12}>
-                                <div className='img-book'>
-                                    <img src={libro.image} alt={`Portada de ${libro.title}`} />
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} md={12}>
-                                <div className='info'>
-                                    <label>{libro.title}</label>
-                                    <label>{libro.author}</label>
-                                    <label>{libro.price}</label>
-                                    <Button variant="contained" className='btn' onClick={() => handleOpen(libro)}>Ver más</Button>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </SwiperSlide>
-                ))}
+                <Grid container spacing={0}>
+                    <Grid item xs={12} md={8}>
+                        {libros.map((libro, index) => (
+                            <SwiperSlide key={index}>
+                                <Grid container spacing={0}>
+                                    <Grid item xs={12} md={12}>
+                                        <div className='img-book'>
+                                            <img src={libro.image} alt={`Portada de ${libro.title}`} />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12} md={12}>
+                                        <div className='info'>
+                                            <label>{libro.title}</label>
+                                            <label>{libro.author}</label>
+                                            <label>{libro.price}</label>
+                                            <Button variant="contained" className='btn' onClick={() => handleOpen(libro)}>Ver más</Button>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </SwiperSlide>
+                        ))}
+                    </Grid>
+                </Grid>
             </Swiper>
             <div className='modal'>
                 <Modal

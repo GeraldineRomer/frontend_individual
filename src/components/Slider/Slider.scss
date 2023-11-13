@@ -107,3 +107,26 @@ body {
         color: #47101F;
     }
 }
+
+@media (max-width: 768px) {
+    .info-title{
+        position: absolute;
+        bottom: 5px;
+        align-items: center;
+        .title{
+            text-align: center;
+        }
+        .description{
+            text-align: center;
+        }
+    }
+    .swiper{
+        position: absolute;
+        height: auto;
+    }
+    .swiper-slide{
+        position: absolute;
+        top: 300px;
+        width: 500px;
+    }
+}
