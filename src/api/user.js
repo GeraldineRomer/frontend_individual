@@ -10,7 +10,7 @@ export class User {
 
     async getMe(accessToken) {
         console.log(typeof accessToken);
-        const accessTokenString= accessToken.access_token; // Convertir el objeto a una cadena de texto
+        const accessTokenString= accessToken.access; // Convertir el objeto a una cadena de texto
         console.log(typeof accessTokenString);
         console.log(accessTokenString);
         try {

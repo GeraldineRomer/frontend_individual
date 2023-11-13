@@ -45,24 +45,31 @@ export const Register = () => {
     };
 
     const { signup } = useAuth();
+
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
         email: "",
         password: "",
         document: "",
-        documentType: "",
+        document_type: "",
         country: "",
-        departamento: "",
+        department: "",
         municipality: "",
     });
 
     const [error, setError] = useState("");
 
     const handleInputChange = (field, value) => {
+        let processedValue = value;
+        // Si el campo es "document_type" y el valor es un objeto, extraer el campo "label"
+        if (field === "document_type" && typeof value === "object" && value !== null) {
+            processedValue = value.label;
+        }
+
         setFormData((prevData) => ({
         ...prevData,
-        [field]: value,
+        [field]: processedValue,
         }));
         setIsColombiaSelected(typeof value === 'string' && value.toLowerCase() === 'colombia');
     };
@@ -72,33 +79,24 @@ export const Register = () => {
         try {
             setError("");
             const response = await authController.register(formData);
+            console.log("Soy response" + response);
+            window.location.href = '/login';
             authController.setAccessToken(response.access);
+            console.log("Soy response" + response);
             signup(response);
-            window.location.href = "/admin/";
-            console.log(response);
+            console.log("Soy response" + response);
         } catch (error) {
             setError("Error en el servidor con validación de formato de evolución");
         }
     };
 
-    const currencies = [
-        {
-            value: 'TI',
-            label: 'Tarjeta Identidad',
-        },
-        {
-            value: 'CC',
-            label: 'Cédula',
-        },
-        {
-            value: 'CE',
-            label: 'Cédula Extranjera',
-        },
-        {
-            value: 'RC',
-            label: 'Registro Civil',
-        },
+    const documentTypes = [
+        { label: "Cédula" },
+        { label: "Cédula Extranjera" },
+        { label: "Tarjeta Identidad" },
+        { label: "Registro Civil" },
     ];
+    
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -164,7 +162,7 @@ export const Register = () => {
                         value={selectedDepartamento}
                         onChange={(e, value) => {
                             handleDepartamentoChange(e, value);
-                            handleInputChange("departamento", value);
+                            handleInputChange("department", value);
                         }}
                         disabled={formData.country !== "Colombia"}
                         renderInput={(params) => (
@@ -195,22 +193,23 @@ export const Register = () => {
                         //helperText="Please select your currency"
                         >
                         </Autocomplete>
-                        <TextField
+                        <Autocomplete
                         required
+                        disablePortal
                         id="outlined-select-currency"
-                        select
                         label="Tipo de documento"
-                        defaultValue="CC"
+                        options={documentTypes}
                         className='input'
-                        onChange={(e, value) => handleInputChange("documentType", value)}
+                        onChange={(e, value) => handleInputChange("document_type", value)}
                         //helperText="Please select your currency"
+                        renderInput={(params) => (
+                            <TextField
+                            {...params}
+                            label="Tipo de documento"
+                            />
+                        )}
                         >
-                        {currencies.map((option) => (
-                            <MenuItem key={option.value} value={option.value} className='dropdown'>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                        </TextField>
+                        </Autocomplete>
                         <TextField
                         required
                         id="outlined-number"

@@ -23,6 +23,7 @@ export class Auth {
                 throw new Error("Error en la solicitud: " + response.status);
             }
             const result = await response.json();
+            console.log("soy json " + result);
             return result;
         } catch (error) {
             console.error(error);

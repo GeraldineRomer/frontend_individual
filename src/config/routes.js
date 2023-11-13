@@ -5,6 +5,7 @@ import { Home } from "../pages/Home/Home";
 import {Privacy} from "../pages/Privacy/Privacy";
 import { Login } from "../pages/Login/Login"; 
 import { Register } from "../pages/Register/Register";
+import { Admin } from "../pages/Admin/Admin";
 
 const GeneralRoutes = [
     { path: "/", component: Home},
@@ -13,7 +14,8 @@ const GeneralRoutes = [
     { path: "/products", component: Products},
     {path: "/privacy", component: Privacy},
     {path: "/login", component: Login},
-    {path: "/register", component: Register}
+    {path: "/register", component: Register},
+    {path: "/admin", component: Admin}
 ]
 
 const allRoutes = [...GeneralRoutes];
