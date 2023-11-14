@@ -2,4 +2,9 @@
 
 .Users{
     background: #FCF3F7;
+    display: flex;
+
+    .table-container{
+        height: 500px;
+    }
 }

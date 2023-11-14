@@ -8,7 +8,8 @@ export const ENV = {
         LOGIN: 'auth/login',
         ADMIN: 'admins',
         USER_ME: "user/me",
-        VERIFY_CODE: 'auth/verifycode'
+        VERIFY_CODE: 'auth/verifycode',
+        USERS: '/users'
     },
     JWT:{
         ACCESS: "access",

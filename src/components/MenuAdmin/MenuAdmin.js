@@ -1,21 +1,27 @@
 import React, { Children, useState } from 'react';
 import './MenuAdmin.scss';
 import GroupIcon from '@mui/icons-material/Group';
+import HomeIcon from '@mui/icons-material/Home';
 import UamLogo  from '../../assets/img/logo-removebg-preview.png';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
 
-export const MenuAdmin = ({children}) => {
+export const MenuAdmin = () => {
     const[isOpen, setIsOpen] = useState(true);
 
     const toggle = () => setIsOpen(!isOpen);
 
     const menuItems = [
         {
+            path: '/admin',
+            name: 'Dashboard',
+            icon: <HomeIcon/>
+        },
+        {
             path: '/admin/users',
-            name: 'users',
+            name: 'Usuarios',
             icon: <GroupIcon/>
-        }
+        },
     ]
     return (
         <div className='container'>
@@ -39,7 +45,7 @@ export const MenuAdmin = ({children}) => {
                     ))
                 }
             </div>
-            <main>{children}</main>
+            {/* <main>{children}</main> */}
         </div>
     )
 }

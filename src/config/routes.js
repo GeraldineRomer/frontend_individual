@@ -25,10 +25,16 @@ export const AdminRoutes = [
     { 
         path: "/admin", 
         component: Dashboard, // La ruta principal del dashboard del admin 
-        children: [
-            { path: "/", component: Dashboard },
+        /* children: [
             { path: "/users", component: Users },
-        ]
+        ] */
+    },
+    { 
+        path: "/admin/users", 
+        component: Users, // La ruta principal del dashboard del admin 
+        /* children: [
+            { path: "/users", component: Users },
+        ] */
     },
 ];
 

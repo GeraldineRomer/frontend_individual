@@ -1,7 +1,10 @@
 import React from 'react';
 import './Users.scss';
-import { MenuAdmin } from '../../../components/MenuAdmin/MenuAdmin';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from '@mui/material';
+import { MenuAdmin } from '../../../components/MenuAdmin/MenuAdmin';
+import { GetUsers } from '../../../api/admin';
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -36,29 +39,43 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     ];
 
 export const Users = () => {
+    const users = GetUsers();
+
     return (
         <div className='Users'>
-            <TableContainer component={Paper} aria-label="customized table">
+            <MenuAdmin/>
+            <TableContainer component={Paper} aria-label="customized table" className='table-container'>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                            <StyledTableCell align="right">Calories</StyledTableCell>
-                            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                            <StyledTableCell align="center">Nombre</StyledTableCell>
+                            <StyledTableCell align="center">Apellido</StyledTableCell>
+                            <StyledTableCell align="center">Tipo Documento</StyledTableCell>
+                            <StyledTableCell align="center">Documento</StyledTableCell>
+                            <StyledTableCell align="center">Pais</StyledTableCell>
+                            <StyledTableCell align="center">Departamento</StyledTableCell>
+                            <StyledTableCell align="center">Municipio</StyledTableCell>
+                            <StyledTableCell align="center">Email</StyledTableCell>
+                            <StyledTableCell align="center">Role</StyledTableCell>
+                            <StyledTableCell align="center">Active</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <StyledTableRow key={row.name}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                        {users.map((user, index) => ( // Itera sobre la lista de usuarios y muestra cada usuario en una fila de la tabla
+                            <StyledTableRow key={index}>
+                                <StyledTableCell align="center">{user.firstname}</StyledTableCell>
+                                <StyledTableCell align="center">{user.lastname}</StyledTableCell>
+                                <StyledTableCell align="center">{user.document_type}</StyledTableCell>
+                                <StyledTableCell align="center">{user.document}</StyledTableCell>
+                                <StyledTableCell align="center">{user.country}</StyledTableCell>
+                                <StyledTableCell align="center">{user.department}</StyledTableCell>
+                                <StyledTableCell align="center">{user.municipality}</StyledTableCell>
+                                <StyledTableCell align="center">{user.email}</StyledTableCell>
+                                <StyledTableCell align="center">{user.role}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <ToggleOffIcon/>
+                                </StyledTableCell>
+                                {/* Agrega aquí las celdas para los otros campos del usuario */}
                             </StyledTableRow>
                         ))}
                     </TableBody>

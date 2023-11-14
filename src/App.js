@@ -17,30 +17,20 @@ function App() {
               element={<route.component />}
             />
           ))}
-          <Route path="/admin/*" element={<AdminRoutesWithMenu />} />
+          {AdminRoutes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={<route.component />}
+            />
+          ))}
+          {/* <Route path="/admin/*" element={<AdminRoutesWithMenu />} /> */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
-    
-  );
-
-}
-
-function AdminRoutesWithMenu() {
-  return (
-    <MenuAdmin>
-      <Routes>
-        {AdminRoutes.map((route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            element={<route.component />}
-          />
-        ))}
-      </Routes>
-    </MenuAdmin>
   );
 }
+
 
 export default App;
 

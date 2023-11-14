@@ -33,3 +33,23 @@ export const AdminName = () => {
     const fullName = admin.name + admin.lastname
     return fullName;
 }
+
+export const GetUsers = () => {
+    const [Users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const url = `${BASE_PATH}/${API_ROUTES.USERS}`;
+                console.log("url get users -> " + url);
+                const response = await axios.get(url);
+                setUsers(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    return Users;
+};
