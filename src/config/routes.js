@@ -5,19 +5,33 @@ import { Home } from "../pages/Home/Home";
 import {Privacy} from "../pages/Privacy/Privacy";
 import { Login } from "../pages/Login/Login"; 
 import { Register } from "../pages/Register/Register";
-import { Admin } from "../pages/Admin/Admin";
 import { Verify } from "../pages/Verify/Verify";
 import { NoVerify } from "../pages/NoVerify/NoVerify";
+import { User } from "../pages/User/User";
+import { Dashboard } from "../pages/Admin/Dashboard/Dashboard";
+import { Users } from "../pages/Admin/Users/Users";
 
-const GeneralRoutes = [
+export const GeneralRoutes = [
     { path: "/", component: Home},
-    {path: "/privacy", component: Privacy},
-    {path: "/login", component: Login},
-    {path: "/register", component: Register},
-    {path: "/admin", component: Admin},
-    {path: "/verify", component: Verify},
-    {path: "/noverify", component: NoVerify}
-]
+    { path: "/privacy", component: Privacy},
+    { path: "/login", component: Login},
+    { path: "/register", component: Register},
+    { path: "/verify", component: Verify},
+    { path: "/noverify", component: NoVerify},
+    { path: "/user", component: User},
+];
 
-const allRoutes = [...GeneralRoutes];
+export const AdminRoutes = [
+    { 
+        path: "/admin", 
+        component: Dashboard, // La ruta principal del dashboard del admin 
+        children: [
+            { path: "/", component: Dashboard },
+            { path: "/users", component: Users },
+        ]
+    },
+];
+
+/* const allRoutes = [...GeneralRoutes, ...AdminRoutes];
 export default allRoutes;
+ */

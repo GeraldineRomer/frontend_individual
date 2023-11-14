@@ -1,0 +1,17 @@
+.User {
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    display: flex;
+    background: #FCF3F7; /* Ruta de la imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Estilos para el contenido principal */
+.Content {
+    flex: 1; /* Hace que el contenido principal ocupe el espacio restante vertical */
+}
+
+

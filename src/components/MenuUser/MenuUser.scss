@@ -1,0 +1,189 @@
+@import '../../App.scss';
+
+@import '../../App.scss';
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: MontaguSlab;
+}
+
+.container{
+    height: 100%;
+    .menu{
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #8C2844;
+        padding: 10px 0;
+        box-shadow: 0 8px 8px  rgba(0, 0, 0, 0.2);
+        .menu-links{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        ul{
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+            li {
+                margin-right: 20px;
+                a{
+                    font-size: 18px;
+                    color: #fcf3f7;
+                    text-decoration: none;
+                    padding: 5px 10px;
+                    transition: background-color 0.3s;
+                    &:hover{
+                        color: #EFB2CC;
+                        cursor: pointer;
+                    }
+                    &:active{
+                        font-weight: 700;
+                        &::after{
+                            background-color: #bebbbbc9;
+                        }
+                    }
+                }
+                &:hover{
+                    transform: scale(1.1);
+                }
+            }
+        }
+        .uam{
+            max-height: 80px;
+            width: auto;
+            margin: 0 20px;
+        }
+        .avatar-container{
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            .avatar{
+                max-width: 60px;
+                height: auto;
+                border-radius: 50%;
+                border: 2px solid #fcf3f7;
+                /* margin-left: 20px;
+                margin-top: 10px; */
+                margin: 10px 20px;
+            }
+        }
+        .toggle{
+            display: none;
+        }
+        .cancel-menu{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            .cancel-a{
+                color: #fcf3f7;
+                font-family: MontaguSlab;
+                font-size: 18px;
+                text-decoration: none;
+                text-align: center;
+                &:hover{
+                    cursor: pointer;
+                    color: #EFB2CC;
+                    transform: scale(1.1);
+                }
+            }
+        }
+        .books{
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            color: #fcf3f7;
+            font-family: MontaguSlab;
+            font-size: 15px;
+            margin-top: 30px;
+        }
+    }
+    .content{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .books{
+        display: flex;
+        font-size: 10px;
+        justify-content: center;
+    }
+    .avatar-container{
+        display: block; 
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
+    .uam{
+        display: none;
+    }
+    ul{
+        display: flex;
+        flex-direction: column;
+        transform: translateX(-100%);
+        left: 0px;
+        width: 100%;
+        background-color: #8C2844;
+        position: absolute;
+        top: 64px;
+    }
+    .toggle{
+        display: flex !important;
+        flex-direction: column;
+        align-self: flex-start;
+        &:hover{
+            cursor: pointer;
+        }
+        margin: 20px;
+    }
+    .toggle span {
+        width: 30px;
+        height: 5px;
+        background-color: #fcf3f7;
+        margin-bottom: 5px;
+        border-radius: 2px;
+        transform-origin: 5px 1px;
+        transition: all 0.2s linear;
+    }
+    
+    li{
+        margin: 20px;
+        a{
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            text-decoration: none;
+            padding: 5px 10px;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+    }
+    .close span{
+        transform: rotate(45deg) translate(0px, 0px);
+    }
+    .close span:nth-child(2){
+        display: none;
+    }
+    .close span:nth-child(3){
+        transform: rotate(-45deg) translate(-5px, 1px);
+    }
+    .open {
+        transform: translateX(0) !important;
+    }
+}
+
+
+
+
