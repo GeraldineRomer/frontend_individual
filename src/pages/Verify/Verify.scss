@@ -1,0 +1,37 @@
+@import '../../App.scss';
+
+.verify{
+    display: flex;
+    background: #FCF3F7; /* Ruta de la imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    .verify-title{
+        color: #47101F;
+        text-align: center;
+    }
+    .input-verify{
+        margin: 10px;
+        border: #47101F;
+        label{
+            color: #47101F;
+        }
+    }
+    .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
+        color: #47101F;
+    }
+    .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+        border-color: #47101F;
+    }
+    .btn-verify{
+        margin: 10px;
+        color: #FCF3F7;
+        background-color: #47101F;
+        &:hover{
+            background-color: #8C2844;
+        }
+    }
+}

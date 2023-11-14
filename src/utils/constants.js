@@ -7,7 +7,8 @@ export const ENV = {
         REGISTER: 'register',
         LOGIN: 'auth/login',
         ADMIN: 'admins',
-        USER_ME: "admins/me",
+        USER_ME: "user/me",
+        VERIFY_CODE: 'auth/verifycode'
     },
     JWT:{
         ACCESS: "access",

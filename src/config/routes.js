@@ -6,16 +6,17 @@ import {Privacy} from "../pages/Privacy/Privacy";
 import { Login } from "../pages/Login/Login"; 
 import { Register } from "../pages/Register/Register";
 import { Admin } from "../pages/Admin/Admin";
+import { Verify } from "../pages/Verify/Verify";
+import { NoVerify } from "../pages/NoVerify/NoVerify";
 
 const GeneralRoutes = [
     { path: "/", component: Home},
-    { path: "/flexbox", component: Flexbox},
-    { path: "/contact", component: Contact},
-    { path: "/products", component: Products},
     {path: "/privacy", component: Privacy},
     {path: "/login", component: Login},
     {path: "/register", component: Register},
-    {path: "/admin", component: Admin}
+    {path: "/admin", component: Admin},
+    {path: "/verify", component: Verify},
+    {path: "/noverify", component: NoVerify}
 ]
 
 const allRoutes = [...GeneralRoutes];

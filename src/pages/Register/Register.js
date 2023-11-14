@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Register.scss';
-import { Autocomplete, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Auth } from '../../api';
 import axios from "axios";
@@ -15,6 +15,7 @@ export const Register = () => {
     const [municipiosFiltrados, setMunicipiosFiltrados] = useState([]);
     
     const [isColombiaSelected, setIsColombiaSelected] = useState(true);
+    const [isTermsAccepted, setIsTermsAccepted] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,7 +42,6 @@ export const Register = () => {
         .map((item) => item.municipio);
 
         setMunicipiosFiltrados(municipios);
-        console.log(value);
     };
 
     const { signup } = useAuth();
@@ -56,6 +56,7 @@ export const Register = () => {
         country: "",
         department: "",
         municipality: "",
+        acceptTerms: false,
     });
 
     const [error, setError] = useState("");
@@ -67,6 +68,13 @@ export const Register = () => {
             processedValue = value.label;
         }
 
+        if (field === "acceptTerms") {
+            processedValue = value.target.checked;
+            setIsTermsAccepted(processedValue);
+        }
+        console.log("processedValue : " + processedValue);
+        console.log("isTermsAccepted:", isTermsAccepted);
+
         setFormData((prevData) => ({
         ...prevData,
         [field]: processedValue,
@@ -76,16 +84,21 @@ export const Register = () => {
 
     const onFinish = async () => {
         console.log("Received values of form: ", formData);
+        if (!isTermsAccepted) {
+            setError("Debes aceptar los términos y condiciones para registrarte.");
+            return;
+        }
         try {
             setError("");
             const response = await authController.register(formData);
             console.log("Soy response" + response);
-            window.location.href = '/login';
+            window.location.href = '/verify';
             authController.setAccessToken(response.access);
             console.log("Soy response" + response);
             signup(response);
             console.log("Soy response" + response);
         } catch (error) {
+            console.error("Error en onFinish:", error);
             setError("Error en el servidor con validación de formato de evolución");
         }
     };
@@ -276,7 +289,18 @@ export const Register = () => {
                     </div>
                 </Box>
                 <FormGroup className='form'>
-                    <FormControlLabel required control={<Checkbox  className='icon'/>} label="Acepto" className='checkbox'/>
+                    <FormControlLabel 
+                    required 
+                    control= 
+                        {<Checkbox  
+                            className='icon' 
+                            checked={isTermsAccepted} 
+                            onChange={(e) => setIsTermsAccepted(e.target.checked)}
+                        />} 
+                    label="Acepto" 
+                    className='checkbox'
+                    />
+                    {error && <FormHelperText style={{ color: 'red' }}>{error}</FormHelperText>}
                     <a onClick={privacy}>Términos y Condiciones</a>
                 </FormGroup>
                 <div className='login-register'>

@@ -1,4 +1,5 @@
-import {ENV} from '../utils/constants';
+import axios from 'axios';
+import { ENV } from '../utils/constants';
 
 const { BASE_PATH, API_ROUTES, JWT } = ENV;
 
@@ -8,24 +9,19 @@ export class Auth {
     register = async (data) => {
         const url = `${BASE_PATH}/${API_ROUTES.REGISTER}`;
         console.log(url);
-        const params = {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-        console.log("Mensaje ",params);
 
-        try{
-            const response = await fetch(url, params);
-            if (!response.ok){
-                throw new Error("Error en la solicitud: " + response.status);
-            }
-            const result = await response.json();
-            console.log("soy json " + result);
-            return result;
+        try {
+            const response = await axios.post(url, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            console.log("response desde auth register -> ", response);
+
+            return response.data;
         } catch (error) {
+            console.log("error linea 24 auth -> " + error);
             console.error(error);
             throw error;
         }
@@ -34,26 +30,45 @@ export class Auth {
     login = async (data) => {
         const url = `${BASE_PATH}/${API_ROUTES.LOGIN}`;
         console.log(url);
-        const params = {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers:{
-                "Content-Type": "application/json",
-            },
+        const noActive = {
+            active: false
         };
-        console.log(params);
-        try{
-            const response = await fetch(url, params);
-            if (!response.ok){
-                throw new Error("Error en la solicitud: " + response.status);
-            }
-            const result = await response.json();
-            return result;
+
+        try {
+            const response = await axios.post(url, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            console.log("retorno el json en auto login", response.data);
+            return response.data;
         } catch (error) {
+            console.error(error);
+            return noActive;
+        }
+    };
+
+    verifyCode = async (code) => {
+        const url = `${BASE_PATH}/${API_ROUTES.VERIFY_CODE}`;
+        console.log("la url en verifycode -> " + url);
+        console.log("code en auth -> " + { code });
+        try {
+            const response = await axios.post(url,  code , {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            console.log("response desde auth verifyCode -> ", response.data);
+
+            return response.data;
+        } catch (error) {
+            console.log("error en auth verifyCode -> ", error);
             console.error(error);
             throw error;
         }
-    }
+    };
 
     getAccessToken = async () => {
         const response = await localStorage.getItem(JWT.ACCESS);
