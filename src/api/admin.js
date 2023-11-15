@@ -35,25 +35,20 @@ export const AdminName = () => {
     return fullName;
 }
 
-export const GetUsers = () => {
-    const [users, setUsers] = useState([]);
-    
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const url = `${BASE_PATH}/${API_ROUTES.USERS}`;
-                console.log("url get users -> " + url);
-                const response = await axios.get(url);
-                setUsers(response.data);
-            } catch (error) {
-                console.error(error);
-            }
+export const GetUsers = async (page = 1, limit = 5) => {
+    try {
+        const url = `${BASE_PATH}/${API_ROUTES.USERS}?page=${page}&limit=${limit}`;
+        console.log("url get users -> " + url);
+        const response = await axios.get(url);
+        console.log('respuesta de usuarios', response.data);
+        return {
+            results: response.data.results,
+            next: response.data.next
         };
-        fetchData();
-    }, []);
-    
-    
-    return users;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
 };
 
 
