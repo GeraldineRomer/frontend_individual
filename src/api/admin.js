@@ -2,6 +2,7 @@ import {ENV} from '../utils/constants';
 import axios from "axios";
 import { useEffect, useState } from "react";
 const { BASE_PATH, API_ROUTES } = ENV;
+const CONTENT_TYPE_JSON = "application/json";
 
 export const GetAdmin = () => {
     const [data, setData] = useState([]);
@@ -35,8 +36,8 @@ export const AdminName = () => {
 }
 
 export const GetUsers = () => {
-    const [Users, setUsers] = useState([]);
-
+    const [users, setUsers] = useState([]);
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -50,6 +51,40 @@ export const GetUsers = () => {
         };
         fetchData();
     }, []);
-
-    return Users;
+    
+    
+    return users;
 };
+
+
+export const toggleUserRole = async (userId, currentActiveStatus, accessToken, users) => {
+    const accessTokenString = accessToken;
+    console.log("accessTokenString en admin -> " + accessTokenString);
+    try {
+        const url = `${BASE_PATH}/${API_ROUTES.UPDATE}${userId}`;
+        console.log("url patch users -> " + url);
+
+        // Enviar solo la información necesaria para la actualización (en este caso, el estado activo)
+        const response = await axios.patch(
+            url,
+            { active: !currentActiveStatus }, // Invertir el estado de activación/desactivación
+            {
+                headers: {
+                    "Content-Type": CONTENT_TYPE_JSON,
+                    Authorization: `Bearer ${accessTokenString}`,
+                },
+            }
+        );
+
+        console.log("Respuesta del toggle después del PATCH -> ", response.data);
+
+        // Actualizar el estado local solo del usuario que ha cambiado
+        users.map(user =>
+                user._id === userId ? { ...user, active: !currentActiveStatus } : user
+            
+        );
+    } catch (error) {
+        console.error(error);
+    }
+};    
+
