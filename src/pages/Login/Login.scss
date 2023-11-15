@@ -28,7 +28,7 @@
             align-items: center;
             margin: 10px;
             font-size: 30px;
-            font-weight: bold;
+            font-weight: normal;
             color: #FCF3F7;
         }
         .info{
@@ -91,7 +91,7 @@
             a{
                 color: #FCF3F7;
                 text-decoration: none;
-                font-weight: bold;
+                font-weight: normal;
                 cursor: pointer;
             }
         }
@@ -99,5 +99,45 @@
     .Footer{
         top: 580px;
         z-index: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .login{
+        .login-mask{
+            display: flex;
+            width: auto;
+            height: 450px;
+            .login-label{
+                font-size: 20px;
+            }
+            .info{
+                margin: 20px;
+                .input{
+                    width: 300px;
+                    margin: 10px;
+                    min-width: 220px;
+                }
+            }
+            .btn-div-login{
+                .btn-login{
+                    width: 180px;
+                }
+            }
+            .forgot-password{
+                margin: 5px;
+            }
+            .registro{
+                margin-top: 20px;
+                flex-direction: column;
+                display: flex;
+                label{
+                    margin-right: 0px;
+                }
+                a{
+                    text-align: center;
+                }
+            }
+        }
     }
 }

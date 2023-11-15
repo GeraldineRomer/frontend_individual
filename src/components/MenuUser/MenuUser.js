@@ -5,6 +5,7 @@ import  Avatar  from '../../assets/img/avatar.png';
 import { Link, animateScroll as scroll } from "react-scroll";
 import { Grid } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { MenuOptionsUser } from '../MenuOptionsUser/MenuOptionsUser';
 
 export const MenuUser = () => {
     /* scrollToTop = () => {
@@ -84,8 +85,7 @@ export const MenuUser = () => {
                             </Grid>
                             <Grid item xs={6} md={1}>
                                 <div className='cancel-menu' >
-                                    <Link onClick={cancel} className='cancel-a' id='cancel'>Cancelar cuenta</Link>
-                                    <KeyboardArrowDownIcon className='arrow-icon'/>
+                                    <MenuOptionsUser/>
                                 </div>
                             </Grid>
                             <Grid item xs={3} md={1}>

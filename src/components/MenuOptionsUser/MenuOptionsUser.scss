@@ -1,0 +1,24 @@
+@import '../../App.scss';
+
+
+.paper{
+    display: inherit;
+    background: #8C2844;
+    .menulist{
+        display: flex;
+        flex-direction: column;
+        background-color: #8C2844;
+        color: #FCF3F7;
+        width: 150px;
+    }
+}
+
+.menu-options{
+    position: absolute;
+    top: 50px;
+    .arrow-icon{
+        color: #FCF3F7;
+        cursor: pointer;
+    }
+}
+
