@@ -5,6 +5,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { toggleUserRole } from '../../api/admin';
 import { GetUsersComplete } from '../../api';
 import { Auth } from '../../api';
+import { User } from '../../api/user'; 
 
 const authController = new Auth();
 
@@ -21,14 +22,21 @@ export const MenuOptionsUser = () => {
     const users = GetUsersComplete();
 
     const [token,setToken] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [userActive, setUserActive] = useState(false);
 
     useEffect(() => {
         const checkUserSession = async () => {
             try {
+                const userApi = new User();
+
                 const accessToken = await authController.getAccessToken();
                 console.log("access token dentro de Users -> " + accessToken);
                 setToken(accessToken);
+
+                const userInfo = await userApi.getMeId(accessToken);
+                console.log("Datos completos del usuario: ", userInfo);
+                setUserData(userInfo);
             } catch (error) {
                 console.error("Error al obtener la sesión del usuario", error);
             }
@@ -38,13 +46,10 @@ export const MenuOptionsUser = () => {
     
     const handleToggleUserRole = async (userId, currentActiveStatus) => {
         await toggleUserRole(userId, currentActiveStatus, token, users);
-        setUserActive(prevState => !prevState);
         setShowAlert(false);
-    };
-    // hacer click en "Aceptar" en el alert de cancelar la cuenta
-    const handleAcceptAlert = (userId) => {
-        setSelectedUserId(userId);
-        setShowAlert(true);
+        // Realizar redirección al login después de desactivar la cuenta
+        // Esta redirección puede variar según cómo manejes las rutas en tu aplicación
+        window.location.href = '/login'; // Redirección al login
     };
 
     //abrir el menu de opciones
@@ -93,8 +98,20 @@ export const MenuOptionsUser = () => {
         setShowAlert(false); 
     };
     // Cerrar el Alert al hacer clic en "Cancelar"  de salir de la cuenta
-    const handleAlertCloseLogout = () => {
+    const handleAlertCloseCancelLogout = () => {
         setshowAlertLogout(false); 
+    };
+
+    const handleAlertCloseLogout = async () => {
+        // Cerrar sesión: eliminar los tokens del caché
+        try {
+            await authController.logout(); // Método para cerrar sesión y eliminar los tokens del caché
+            setshowAlertLogout(true); // Muestra la alerta de cierre de sesión
+            setOpen(false);
+            window.location.href = '/login'; // Redirección al login después de cerrar sesión
+        } catch (error) {
+            console.error("Error al cerrar sesión", error);
+        }
     };
 
 
@@ -150,7 +167,7 @@ export const MenuOptionsUser = () => {
                             <AlertTitle>Tu cuenta será desactivada</AlertTitle>
                             Acepta para desactivar tu cuenta <strong>¿Estás seguro?</strong>
                             <div className='btn-alert'>
-                                <Button variant="outlined" onClick={handleAlertClose} className='btn'>Aceptar</Button>
+                                <Button variant="outlined" onClick={() => handleToggleUserRole(userData._id, userData.active)} className='btn'>Aceptar</Button>
                                 <Button variant="outlined" onClick={handleAlertClose} className='btn'>Cancelar</Button>
                             </div>
                         </Alert>
@@ -162,8 +179,8 @@ export const MenuOptionsUser = () => {
                             <AlertTitle>Vas a cerrar sesión</AlertTitle>
                             Acepta para salir <strong>¿Estás seguro?</strong>
                             <div className='btn-alert'>
-                                <Button variant="outlined" onClick={handleToggleUserRole} className='btn'>Aceptar</Button>
-                                <Button variant="outlined" onClick={handleAlertCloseLogout} className='btn'>Cancelar</Button>
+                                <Button variant="outlined" onClick={handleAlertCloseLogout} className='btn'>Aceptar</Button>
+                                <Button variant="outlined" onClick={handleAlertCloseCancelLogout} className='btn'>Cancelar</Button>
                             </div>
                         </Alert>
                     </div>

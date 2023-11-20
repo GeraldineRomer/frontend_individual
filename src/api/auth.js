@@ -78,4 +78,21 @@ export class Auth {
     setAccessToken = (token) => {
         localStorage.setItem(JWT.ACCESS, token);
     };
+
+    logout = async () => {
+        try {
+            // Eliminar los tokens de acceso y actualización del almacenamiento local
+            localStorage.removeItem(JWT.ACCESS);
+            localStorage.removeItem(JWT.REFRESH);
+            // Aquí podrías agregar lógica adicional, como revocar el token en el servidor si es necesario
+            // Hacer la solicitud al backend para revocar el token
+            /* const response = await axios.post(`${BASE_PATH}/${API_ROUTES.LOGOUT}`, {
+                // Puedes enviar cualquier dato adicional al backend si es necesario
+            }); */
+            /* console.log('Token revocado en el servidor:', response.data); */
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+            throw error;
+        }
+    };
 }
