@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { ENV } from "../utils/constants";
+import { useEffect, useState } from 'react';
 
 const USER_ME_ROUTE = ENV.API_ROUTES.USER_ME;
 const CONTENT_TYPE_JSON = "application/json";
-const USERS = ENV.API_ROUTES.USERS;
+const USERS_COMPLETE = ENV.API_ROUTES.USERS_COMPLETE;
 
 export class User {
     baseApi = ENV.BASE_PATH;
@@ -31,4 +32,23 @@ export class User {
     }
 
     
+    
+}
+
+export const GetUsersComplete = () => {
+    const [users, setUsers] = useState([]);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const url = `${ENV.BASE_PATH}/${USERS_COMPLETE}`;
+                console.log("url get users -> " + url);
+                const response = await axios.get(url);
+                setUsers(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
 }

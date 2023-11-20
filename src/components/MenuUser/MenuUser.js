@@ -1,6 +1,6 @@
 import React from 'react';
 import './MenuUser.scss';
-import UamLogo  from '../../assets/img/logo-removebg-preview.png';
+import Logo  from '../../assets/img/logoblanco.png';
 import  Avatar  from '../../assets/img/avatar.png';
 import { Link, animateScroll as scroll } from "react-scroll";
 import { Grid } from '@mui/material';
@@ -28,10 +28,10 @@ export const MenuUser = () => {
         <div class="container">
             <Grid container spacing={0}>
                 <Grid item xs={6} md={12}>
-                    <div class="menu" id="menu">
+                    <div class="menu-user" id="menu">
                         <Grid container spacing={0}>
                             <Grid item xs={0} md={1}>
-                                <img src={UamLogo} alt="Logo UAM" class="uam"/>
+                                <img src={Logo} alt="Logo UAM" class="uam"/>
                             </Grid>
                             <div class="toggle" id="toggle" onClick={burguer}>
                                 <span></span>
@@ -77,7 +77,31 @@ export const MenuUser = () => {
                                                 offset={-50}
                                                 duration={500}
                                             >
-                                                Products
+                                                Books
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                activeClass="active"
+                                                to="Section3"
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-100}
+                                                duration={500}
+                                            >
+                                                Author
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                activeClass="active"
+                                                to="Section4"
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-100}
+                                                duration={500}
+                                            >
+                                                Book
                                             </Link>
                                         </li>
                                     </ul>

@@ -8,6 +8,8 @@ import { Section3 } from '../../components/Sections/Section3/Section3';
 import { LateralMenu } from '../../components/LateralMenu/LateralMenu';
 import { TraslucentMenu } from '../../components/TraslucentMenu/TraslucentMenu';
 import {Footer} from '../../components/Footer/Footer'
+import { Section4 } from '../../components/Sections/Section4/Section4';
+import { Section5 } from '../../components/Sections/Section5/Section5';
 
 export const Home = () => {
     return (
@@ -16,9 +18,11 @@ export const Home = () => {
                 {/* <Cube /> */}
                 <MenuCube />
                 {/* <TraslucentMenu/> */}
+                <Section5/>
                 <Section1/>
                 {/* <Section2 /> */}
-                {/* <Section3/> */}
+                <Section3 />
+                <Section4/>
                 {/* <LateralMenu/> */}
                 <Footer/>
                {/*  <img src={Background} className='background'></img> */}

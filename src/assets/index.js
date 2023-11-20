@@ -13,9 +13,40 @@ import libro7 from './img/libros/retratodoriangray.png';
 import libro8 from './img/libros/yoantesdeti.jpeg';
 import libro9 from './img/libros/yodespuesdeti.jpeg';
 import libro10 from './img/libros//verdadcasoharry.jpg';
+import libro11 from './img/libros/cuentosnavidad.jpeg';
+import libro12 from './img/libros/navidaddiferente.jpg';
+import libro13 from './img/libros/classicblue.png';
+import libro14 from './img/libros/idealinterior.png';
+import libro15 from './img/libros/jardinmariposas.jpeg';
+import libro16 from './img/libros/animalesfantasticosdondeencontrarlos.jpeg';
+import libro17 from './img/libros/harrypotter1.jpeg';
+
+import autor1 from './authors/jkrowlling.jpeg';
 
 const images = {service1, service2, service3, service4};
 
-const images_book = {libro1, libro2, libro3, libro4, libro5, libro6, libro7,libro8, libro9, libro10};
+const images_book = {
+                    libro1, 
+                    libro2, 
+                    libro3, 
+                    libro4, 
+                    libro5, 
+                    libro6, 
+                    libro7,
+                    libro8, 
+                    libro9, 
+                    libro10, 
+                    libro11, 
+                    libro12,
+                    libro13,
+                    libro14,
+                    libro15,
+                    libro16,
+                    libro17
+                };
 
-export {images, images_book}
+const authors = {
+    autor1
+}
+
+export {images, images_book, authors}

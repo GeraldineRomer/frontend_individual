@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
 import './Section1.scss';
-import { useLocation } from 'react-router-dom';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { images_book } from '../../../assets';
 import Slider from '../../Slider/Slider';
+import { Reveal } from '../../ScrollReveal/Reveal';
 
 export const Section1 = () => {
-    const location = useLocation();
-    const shouldHide = location.pathname === '/flexbox';
     
     const libros = [
         {
@@ -93,12 +89,8 @@ export const Section1 = () => {
         },
     ]
     return (
-        <div className={shouldHide ? 'hidden' : ''}>
-            {/* Contenido de Section1 */}
-            <div class="Section1">
-                <Slider libros={libros}/>
-            </div>
+        <div className="Section1">
+            <Slider libros={libros}/>
         </div>
-        
     )
 }

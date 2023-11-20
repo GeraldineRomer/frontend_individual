@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.scss';
 import './Slider.scss';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import { Button, Grid, Fab } from '@mui/material';
 
 /* Modal */
@@ -15,46 +15,28 @@ import Modal from '@mui/material/Modal';
 import { Add, Star } from '@mui/icons-material';
 import { useFavorites } from '../FavoriteList/FavoriteList';
 import { useAdds } from '../AddList/AddList';
+import { Reveal } from '../ScrollReveal/Reveal';
 
-/* aqui van las importaciones necesarias para el modal */
-/* import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { Fab, Grid } from '@mui/material';
- */
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 650,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,   
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: '10px',
-    background: 'linear-gradient(to right bottom ,#e383aa , #a82e53 70%)',
-    borderColor: '#707EE4',
-    maxHeight: '85vh',
-    maxWidth: '100vw',
-    overflow: 'auto',
-    flexWrap: 'unwrap'
-};
 
 
 const Slider = ({ libros }) => {
-    const [isFirstSlide, setIsFirstSlide] = useState(true);
-
-    const handleSlideChange = (swiper) => {
-        setIsFirstSlide(swiper.activeIndex === 0);
-    };
 
     const [open, setOpen] = React.useState(false);
     const [selectedLibro, setSelectedLibro] = useState(null);
+
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+        window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const handleOpen = (libro) => {
         setSelectedLibro(libro)
@@ -80,49 +62,93 @@ const Slider = ({ libros }) => {
         }
     };
 
+    const isSmallScreen = windowWidth <= 320;
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 650,
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: 4,   
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '10px',
+        background: '#47101F',
+        maxHeight: '85vh',
+        maxWidth: '100vw',
+        overflow: 'auto',
+        flexWrap: 'wrap',
+        ...(isSmallScreen && {
+            // Estilos específicos para pantallas pequeñas
+            top: '50%',
+            maxWidth: '90vw',
+            width: 350,
+            height: '400px',
+            maxHeight: '90vh',
+            flexWrap: 'wrap',
+            overflow: 'auto',
+        }),
+    };
+
     return (
         <>
-            <Swiper
-                slidesPerView={4}
-                centeredSlides={true}
-                spaceBetween={30}
-                grabCursor={true}
-                pagination={{
-                    clickable: true,
-                }}
-                modules={[Pagination]}
-                className="mySwiper"
-                onSlideChange={(swiper) => handleSlideChange(swiper)}
-            >
-                <div className={`info-title ${isFirstSlide ? '' : 'hidden'}`}>
-                    <label className='title'>Bienvenido a</label>
-                    <label className='title'>Books&Books</label>
-                    <p className='description'>Aquí podrás encontrar los mejores libros de cualquier género a los mejores precios</p>
-                </div>
-                <Grid container spacing={0}>
-                    <Grid item xs={12} md={8}>
-                        {libros.map((libro, index) => (
-                            <SwiperSlide key={index}>
-                                <Grid container spacing={0}>
-                                    <Grid item xs={12} md={12}>
-                                        <div className='img-book'>
-                                            <img src={libro.image} alt={`Portada de ${libro.title}`} />
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={12} md={12}>
-                                        <div className='info'>
-                                            <label>{libro.title}</label>
-                                            <label>{libro.author}</label>
-                                            <label>{libro.price}</label>
-                                            <Button variant="contained" className='btn' onClick={() => handleOpen(libro)}>Ver más</Button>
-                                        </div>
-                                    </Grid>
-                                </Grid>
-                            </SwiperSlide>
-                        ))}
-                    </Grid>
+            <Grid container spacing={0}>
+                <Grid item xs={12} md={12}>
+                        <Swiper
+                            //slidesPerView={4} // Mostrar un slide por vista en pantallas pequeñas
+                            breakpoints={{ // Ajustar la cantidad de slides por vista en diferentes tamaños de pantalla
+                                320:{
+                                    slidesPerView: 1
+                                },
+                                768: {
+                                    slidesPerView: 2 // Mostrar 2 slides por vista en pantallas de 768px o más
+                                },
+                                1024: {
+                                    slidesPerView: 4 // Mostrar 3 slides por vista en pantallas de 1024px o más
+                                }
+                            }}
+                            centeredSlides={false}
+                            spaceBetween={30}
+                            //grabCursor={true}
+                            loop={true}
+                            autoplay={{
+                                delay: 2500,
+                                disableOnInteraction: true,
+                            }}
+                            pagination={{
+                                clickable: true,
+                            }}
+                            navigation={true}
+                            modules={[Pagination, Navigation, Autoplay]}
+                            className="mySwiper"
+                        >
+                                    {libros.map((libro, index) => (
+                                        <SwiperSlide key={index}>
+                                            <Grid container spacing={0}>
+                                                <Grid item xs={12} md={12}>
+                                                    <div className='img-book'>
+                                                        <img src={libro.image} alt={`Portada de ${libro.title}`} />
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={12} md={12}>
+                                                    <div className='info'>
+                                                        <label>{libro.title}</label>
+                                                        <label>{libro.author}</label>
+                                                        <label>{libro.price}</label>
+                                                        <Button variant="contained" className='btn' onClick={() => handleOpen(libro)}>Ver más</Button>
+                                                    </div>
+                                                </Grid>
+                                            </Grid>
+                                        </SwiperSlide>
+                                    ))}
+                        </Swiper>
                 </Grid>
-            </Swiper>
+            </Grid>
             <div className='modal'>
                 <Modal
                     open={open}
@@ -134,8 +160,23 @@ const Slider = ({ libros }) => {
                         {selectedLibro && (
                             <div className='box'>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={6} md={6}>
-                                        <img src={selectedLibro.image} alt={`Portada de ${selectedLibro.title}`} style={{ width: '100%', height:'auto' , boxShadow:'0 0 10px rgba(0, 0, 0, 0.2)', justtifyContent: 'center', marginTop:'10px', marginBottom:'10px', position: 'relative', top: '60px'}}/>
+                                    <Grid item xs={12} md={6} className='book-modal'>
+                                        <img 
+                                            src={selectedLibro.image} 
+                                            alt={`Portada de ${selectedLibro.title}`} 
+                                            style={{ 
+                                                width: isSmallScreen ? '50%' : '100%', 
+                                                height:'auto' , 
+                                                boxShadow:'0 0 10px rgba(0, 0, 0, 0.2)', 
+                                                justifyContent: 'center', 
+                                                marginTop:'10px', 
+                                                marginBottom: isSmallScreen ? '0':'10px', 
+                                                position: isSmallScreen ? 'relative':'relative', 
+                                                top: isSmallScreen ? '10%':'60px',
+                                                left: isSmallScreen ? '25%':'',
+                                                display: isSmallScreen ? 'none':'',
+                                                }}
+                                        />
                                         <div className="button-fav-group">
                                             <Fab className="btn-icon" color="" aria-label="Favorite icon" onClick={() => handleAddToFavorite(selectedLibro)}>
                                                 <Star/>
@@ -145,17 +186,71 @@ const Slider = ({ libros }) => {
                                             </Fab>
                                         </div>
                                     </Grid>
-                                    <Grid item xs={6} md={6}>
-                                        <Typography id="modal-modal-title" variant="h6" component="h2" style={{ textAlign: 'center' , margin:'5px', fontSize:'20px', fontFamily: 'MontaguSlab', fontWeight: 'normal',  color: '#FCF3F7', top: '60px', position: 'relative'}}>
+                                    <Grid item xs={12} md={6}>
+                                        <Typography 
+                                            id="modal-modal-title" 
+                                            variant="h6" 
+                                            component="h2" 
+                                            style={{ 
+                                                textAlign: 'center' , 
+                                                margin:'5px', 
+                                                fontSize: isSmallScreen ? '18px' : '20px', 
+                                                fontFamily: 'Poppins', 
+                                                fontWeight: 'normal',  
+                                                color: '#FCF3F7', 
+                                                top: '60px', 
+                                                position: 'relative'
+                                                }}
+                                        >
                                             {selectedLibro.title}
                                         </Typography>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'center' , margin:'5px', fontSize:'12px', fontFamily: 'MontaguSlab', fontWeight: 'lighter',  color: '#FCF3F7', position: 'relative', top: '60px'}}>
+                                        <Typography 
+                                            id="modal-modal-description" 
+                                            sx={{ mt: 2 }} 
+                                            style={{ 
+                                                textAlign: 'center' , 
+                                                margin:'5px', 
+                                                fontSize:'12px', 
+                                                fontFamily: 'Poppins', 
+                                                fontWeight: 'lighter',  
+                                                color: '#FCF3F7', 
+                                                position: 'relative', 
+                                                top: '60px'
+                                                }}
+                                        >
                                             {selectedLibro.author}
                                         </Typography>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'center' , margin:'5px', fontSize:'12px', fontFamily: 'MontaguSlab', fontWeight: 'lighter',  color: '#FCF3F7', position: 'relative', top: '60px'}}>
+                                        <Typography 
+                                            id="modal-modal-description" 
+                                            sx={{ mt: 2 }} 
+                                            style={{ 
+                                                    textAlign: 'center' , 
+                                                    margin:'5px', 
+                                                    fontSize:'12px', 
+                                                    fontFamily: 'Poppins', 
+                                                    fontWeight: 'lighter',  
+                                                    color: '#FCF3F7', 
+                                                    position: 'relative', 
+                                                    top: '60px'
+                                                    }}
+                                        >
                                             {selectedLibro.price}
                                         </Typography>
-                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{ textAlign: 'justify' , margin:'5px', fontSize:'15px', fontFamily: 'MontaguSlab', fontWeight: 'lighter',  color: '#FCF3F7', position: 'relative', top: '60px',  marginBottom:'10px'}}>
+                                        <Typography 
+                                            id="modal-modal-description" 
+                                            sx={{ mt: 2 }} 
+                                            style={{ 
+                                                    textAlign: 'justify' , 
+                                                    margin:'5px', 
+                                                    fontSize:isSmallScreen ? '12px':'15px', 
+                                                    fontFamily: 'Poppins', 
+                                                    fontWeight: 'lighter',  
+                                                    color: '#FCF3F7', 
+                                                    position: 'relative', 
+                                                    top: '60px',  
+                                                    marginBottom:'10px'
+                                                    }}
+                                        >
                                             {selectedLibro.description}
                                         </Typography>
                                     </Grid>

@@ -9,6 +9,8 @@ import { LateralMenu } from '../../components/LateralMenu/LateralMenu';
 import { TraslucentMenu } from '../../components/TraslucentMenu/TraslucentMenu';
 import {Footer} from '../../components/Footer/Footer'
 import { MenuUser } from '../../components/MenuUser/MenuUser';
+import { Section4 } from '../../components/Sections/Section4/Section4';
+import { Section5 } from '../../components/Sections/Section5/Section5';
 
 export const User = () => {
     return (
@@ -17,9 +19,11 @@ export const User = () => {
                 {/* <Cube /> */}
                 <MenuUser />
                 {/* <TraslucentMenu/> */}
+                <Section5/>
                 <Section1/>
                 <Section2 />
-                {/* <Section3/> */}
+                <Section3/>
+                <Section4/>
                 {/* <LateralMenu/> */}
                 <Footer/>
             </div>

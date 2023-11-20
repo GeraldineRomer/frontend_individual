@@ -3,13 +3,13 @@
 
 .paper{
     display: inherit;
-    background: #8C2844;
+    background: #47101F;
     .menulist{
         display: flex;
         flex-direction: column;
-        background-color: #8C2844;
+        background-color: #47101F;
         color: #FCF3F7;
-        width: 150px;
+        width: 158px;
     }
 }
 
@@ -21,4 +21,32 @@
         cursor: pointer;
     }
 }
+
+.center-alert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Fondo semi transparente */
+    .custom-alert {
+        z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        .btn-alert{
+            display: flex;
+            justify-content: space-between;
+            margin: 10px;
+            .btn{
+                color: #8C2844;
+                border-color: #8C2844;
+                margin: 10px;
+            }
+        }
+    }
+}
+
+
 

@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Login.scss';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Footer } from '../../components/Footer/Footer';
 import { Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Auth } from '../../api';
@@ -14,45 +15,45 @@ const authController = new Auth();
 export const Login = () => {
     const { user } = useContext(AuthContext);
     const { login } = useAuth();
-    const [formData, setFormData] = useState  ({ email: "", password: "" });
-    const [error, setError] = useState("");
+
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().email('Ingrese un correo electrónico válido').required('El correo electrónico es requerido'),
+        password: Yup.string().required('La contraseña es requerida'),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: validationSchema,
+        onSubmit: async (values) => {
+            try {
+                setError('');
+                const response = await authController.login(values);
+                if (response.active === false) {
+                    window.location.href = '/noVerify';
+                }
+                authController.setAccessToken(response.access);
+                login(response);
+                console.log(response);
+            } catch (error) {
+                setError('Error en el servidor con validación de formato de evolución');
+            }
+        },
+    });
+
+    const [error, setError] = React.useState('');
+    const [showPassword, setShowPassword] = React.useState(false);
 
     useEffect(() => {
-        // Este código se ejecuta cuando 'user' se actualiza
-        console.log("usuario después de ser seteado", user);
-    
-        // Puedes colocar aquí el código que depende de 'user' actualizado
-        if (user && user.role === "admin") {
+        if (user && user.role === 'admin') {
             window.location.href = '/admin';
-        } else if (user && user.role === "guess" && user.active === true) {
+        } else if (user && user.role === 'guess' && user.active === true) {
             window.location.href = '/user';
         }
     }, [user]);
 
-    const handleInputChange = (field, value) => {
-        setFormData((prevData) => ({
-            ...prevData,
-            [field]: value,
-        }));
-    };
-
-    const onFinish = async () => {
-        console.log("Received values of form: ", formData);
-        try {
-            setError("");
-            const response = await authController.login(formData);
-            if ( response.active === false) {
-                window.location.href = '/noVerify';
-            }
-            authController.setAccessToken(response.access);
-            login(response);
-            console.log(response);
-        } catch (error) {
-            setError("Error en el servidor con validación de formato de evolución");
-        }
-    };
-
-    const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -61,24 +62,25 @@ export const Login = () => {
     const register = () => {
         console.log('Di click en login');
         window.location.href = '/register';
-        /* window.open('../Register','_self') */
-    }
+    };
+
     return (
-        <div className='login'>
+        <form onSubmit={formik.handleSubmit} className='login'>
             <div className='login-mask'>
                 <div>
                     <label className='login-label'>Iniciar Sesión</label>
                 </div>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div className='info'>
-                        <FormControl variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-email" className='input-label'>Email</InputLabel>
+                        <FormControl variant='outlined' error={formik.touched.email && Boolean(formik.errors.email)}>
+                            <InputLabel htmlFor='outlined-adornment-email' className='input-label'>Email</InputLabel>
                             <OutlinedInput
                                 required
-                                id="outlined-adornment-email"
+                                id='outlined-adornment-email'
                                 type='email'
                                 className='input'
-                                onChange={(e) => handleInputChange("email", e.target.value)}
+                                {...formik.getFieldProps('email')}
+                                label='Email'
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -89,47 +91,51 @@ export const Login = () => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
-                                label="Email"
                             />
+                            {formik.touched.email && formik.errors.email ? (
+                                <FormHelperText>{formik.errors.email}</FormHelperText>
+                            ) : null}
                         </FormControl>
-                        <FormControl variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Contraseña</InputLabel>
+                        <FormControl variant='outlined' error={formik.touched.password && Boolean(formik.errors.password)}>
+                            <InputLabel htmlFor='outlined-adornment-password' className='input-label'>Contraseña</InputLabel>
                             <OutlinedInput
                                 required
-                                id="outlined-adornment-password"
+                                id='outlined-adornment-password'
                                 type={showPassword ? 'text' : 'password'}
                                 className='input'
-                                onChange={(e) => handleInputChange("password", e.target.value)}
+                                {...formik.getFieldProps('password')}
                                 endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                    >
-                                    {showPassword ? <VisibilityOff className='icon'/> : <Visibility className='icon'/>}
-                                    </IconButton>
-                                </InputAdornment>
+                                    <InputAdornment position='end'>
+                                        <IconButton
+                                            aria-label='toggle password visibility'
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge='end'
+                                        >
+                                            {showPassword ? <VisibilityOff className='icon' /> : <Visibility className='icon' />}
+                                        </IconButton>
+                                    </InputAdornment>
                                 }
-                                label="Password"
+                                label='Password'
                             />
+                            {formik.touched.password && formik.errors.password ? (
+                                <FormHelperText>{formik.errors.password}</FormHelperText>
+                            ) : null}
                         </FormControl>
                     </div>
-                    </Box>
+                </Box>
                 <div className='forgot-password'>
                     <a href='#'>¿Olvidaste tu contraseña?</a>
                 </div>
                 <div className='btn-div-login'>
-                    <Button variant="contained" className='btn-login' onClick={onFinish}>Iniciar Sesión</Button>
+                    <Button variant='contained' className='btn-login' type='submit'>Iniciar Sesión</Button>
                 </div>
                 <div className='registro'>
                     <label>¿No tienes una cuenta?</label>
                     <a onClick={register}>Regístrate</a>
                 </div>
             </div>
-            {/* <Footer className='Footer'/> */}
-        </div>
-    )
-}
+        </form>
+    );
+};
 
