@@ -1,10 +1,10 @@
 @import '../../App.scss';
 
 .register{
-    height: 105vh;
+    height: 109vh;
     background-image: url('../../assets/img/fondo.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     padding-top: 20px;
     padding-bottom: 1px;
     justify-content: center;
@@ -23,21 +23,22 @@
     .register-mask{
         flex-direction: column;
         width: 600px;
-        height: 600px;
+        height: auto;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 10px;
         background:transparent;
-        border: 2px solid #47101F;
+        border: 1px solid #FCF3F7;
         backdrop-filter: blur(20px);
         margin: 30px;
-        box-shadow: 0 0 10px #47101F;
+        box-shadow: 0 0 10px #FCF3F7;
+        flex-wrap: nowrap;
         .register-label{
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 5px;
+            margin: 15px 5px 5px 5px;
             font-size: 30px;
             font-weight: normal;
             color: #FCF3F7;
@@ -54,6 +55,19 @@
                 label{
                     color: #FCF3F7;
                 }
+                svg {
+                    color: #FCF3F7;
+                }
+                input{
+                    color: #FCF3F7;
+                    
+                }
+                /* .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+                    color: #FCF3F7;
+                } */
+                /* .css-i4bv87-MuiSvgIcon-root {
+                    fill: #FCF3F7;
+                } */
             }
             .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
                 color: #FCF3F7;
@@ -66,17 +80,11 @@
                 margin-left: 8px;
             }
             .input-password{
-                width: 250px;
+                width: 220px;
                 margin: 10px;
                 color: #FCF3F7;
                 .icon{
                     color: #FCF3F7;
-                }
-            }
-            .dropdown{
-                color: #FCF3F7;
-                label {
-                    color: #47101F;
                 }
             }
             .css-bpeome-MuiSvgIcon-root-MuiSelect-icon {
@@ -84,6 +92,11 @@
             }
             .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
                 fill: #FCF3F7;
+            }
+            .error-below {
+                color: red;
+                font-size: 0.8rem;
+                margin-top: 0.2rem; /* Ajusta el margen según sea necesario */
             }
         }
         .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
