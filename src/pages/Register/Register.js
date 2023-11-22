@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Register.scss';
-import { Autocomplete, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Auth } from '../../api';
 import axios from "axios";
@@ -233,209 +233,214 @@ export const Register = () => {
                         noValidate
                         autoComplete="off"
                         >
-
-                        <div className='info'>
-                            <TextField
+                        <Grid container spacing={2}>
+                            <div className='info'>
+                            <Grid xs={12} md={6} className='col'>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Nombre"
+                                    className='input'
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.firstname}
+                                    name="firstname"
+                                />
+                                {formik.touched.firstname && formik.errors.firstname ? (
+                                    <div className='error-below'>{formik.errors.firstname}</div>
+                                ) : null}
+                                <Autocomplete
+                                    required
+                                    id="country-autocomplete"
+                                    className='input'
+                                    options={countries}
+                                    getOptionLabel={(option) => option.label}
+                                    value={selectedCountry}
+                                    onChange={(event, newValue) => {
+                                        setSelectedCountry(newValue);
+                                        formik.setFieldValue('country', newValue ? newValue.label : '');
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                    renderInput={(params) => (
+                                        <TextField {...params} label="País" />
+                                    )}
+                                    name="country"
+                                />
+                                {formik.touched.country && formik.errors.country ? (
+                                    <div className='error-below'>{formik.errors.country}</div>
+                                ) : null}
+                                <Autocomplete
                                 required
-                                id="outlined-required"
-                                label="Nombre"
+                                disablePortal
+                                label="Municipio"
+                                options={municipiosFiltrados}
+                                className='input'
+                                onChange={(e, value) => formik.setFieldValue("municipality", value)}
+                                onBlur={formik.handleBlur}
+                                disabled={formData.country !== "Colombia"}
+                                renderInput={(params) => (
+                                    <TextField
+                                    {...params}
+                                    label="Municipio"
+                                    />
+                                )}
+                                //helperText="Please select your currency"
+                                >
+                                </Autocomplete>
+                                {formik.touched.municipality && formik.errors.municipality ? (
+                                    <div className='error-below'>{formik.errors.municipality}</div>
+                                ) : null}
+                                <TextField
+                                required
+                                id="outlined-number"
+                                label="Documento"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 className='input'
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.firstname}
-                                name="firstname"
-                            />
-                            {formik.touched.firstname && formik.errors.firstname ? (
-                                <div className='error-below'>{formik.errors.firstname}</div>
-                            ) : null}
-                            <TextField
+                                value={formik.values.document}
+                                name="document"
+                                />
+                                {formik.touched.document && formik.errors.document ? (
+                                    <div className='error-below'>{formik.errors.document}</div>
+                                ) : null}
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Contraseña*</InputLabel>
+                                    <OutlinedInput
+                                        required
+                                        id="outlined-adornment-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        className='input-password'
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.password}
+                                        endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            >
+                                            {showPassword ? <VisibilityOff className='icon'/> : <Visibility className='icon'/>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                </FormControl>
+                                {formik.touched.password && formik.errors.password ? (
+                                    <div className='error-below'>{formik.errors.password}</div>
+                                ) : null}
+                            </Grid>
+                            <Grid xs={12} md={6} className='col'>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Apellido"
+                                    className='input'
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.lastname}
+                                    name="lastname"
+                                />
+                                {formik.touched.lastname && formik.errors.lastname ? (
+                                    <div className='error-below'>{formik.errors.lastname}</div>
+                                ) : null}
+                                <Autocomplete
                                 required
-                                id="outlined-required"
-                                label="Apellido"
+                                id="outlined-select-currency"
+                                select
+                                label="Departamento"
                                 className='input'
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.lastname}
-                                name="lastname"
-                            />
-                            {formik.touched.lastname && formik.errors.lastname ? (
-                                <div className='error-below'>{formik.errors.lastname}</div>
-                            ) : null}
-                            <Autocomplete
-                                required
-                                id="country-autocomplete"
-                                className='input'
-                                options={countries}
-                                getOptionLabel={(option) => option.label}
-                                value={selectedCountry}
-                                onChange={(event, newValue) => {
-                                    setSelectedCountry(newValue);
-                                    formik.setFieldValue('country', newValue ? newValue.label : '');
+                                options={departamentos}
+                                value={selectedDepartamento}
+                                onChange={(e, value) => {
+                                    handleDepartamentoChange(e, value);
+                                    formik.setFieldValue("department", value);
                                 }}
                                 onBlur={formik.handleBlur}
+                                disabled={formData.country !== "Colombia"}
                                 renderInput={(params) => (
-                                    <TextField {...params} label="País" />
+                                    <TextField
+                                    {...params}
+                                    label="Departamento"
+                                    />
                                 )}
-                                name="country"
-                            />
-                            {formik.touched.country && formik.errors.country ? (
-                                <div className='error-below'>{formik.errors.country}</div>
-                            ) : null}
-                            <Autocomplete
-                            required
-                            id="outlined-select-currency"
-                            select
-                            label="Departamento"
-                            className='input'
-                            options={departamentos}
-                            value={selectedDepartamento}
-                            onChange={(e, value) => {
-                                handleDepartamentoChange(e, value);
-                                formik.setFieldValue("department", value);
-                            }}
-                            onBlur={formik.handleBlur}
-                            disabled={formData.country !== "Colombia"}
-                            renderInput={(params) => (
-                                <TextField
-                                {...params}
-                                label="Departamento"
-                                />
-                            )}
-                            //helperText="Please select your currency"
-                            >
-                            </Autocomplete>
-                            {formik.touched.department && formik.errors.department ? (
-                                <div className='error-below'>{formik.errors.department}</div>
-                            ) : null}
-                            <Autocomplete
-                            required
-                            disablePortal
-                            label="Municipio"
-                            options={municipiosFiltrados}
-                            className='input'
-                            onChange={(e, value) => formik.setFieldValue("municipality", value)}
-                            onBlur={formik.handleBlur}
-                            disabled={formData.country !== "Colombia"}
-                            renderInput={(params) => (
-                                <TextField
-                                {...params}
-                                label="Municipio"
-                                />
-                            )}
-                            //helperText="Please select your currency"
-                            >
-                            </Autocomplete>
-                            {formik.touched.municipality && formik.errors.municipality ? (
-                                <div className='error-below'>{formik.errors.municipality}</div>
-                            ) : null}
-                            <Autocomplete
-                            required
-                            disablePortal
-                            id="outlined-select-currency"
-                            label="Tipo de documento"
-                            options={documentTypes}
-                            className='input'
-                            onChange={(e, value) => formik.setFieldValue("document_type", value)}
-                            onBlur={formik.handleBlur}
-                            //helperText="Please select your currency"
-                            renderInput={(params) => (
-                                <TextField
-                                {...params}
+                                //helperText="Please select your currency"
+                                >
+                                </Autocomplete>
+                                {formik.touched.department && formik.errors.department ? (
+                                    <div className='error-below'>{formik.errors.department}</div>
+                                ) : null}
+                                <Autocomplete
+                                required
+                                disablePortal
+                                id="outlined-select-currency"
                                 label="Tipo de documento"
+                                options={documentTypes}
+                                className='input'
+                                onChange={(e, value) => formik.setFieldValue("document_type", value)}
+                                onBlur={formik.handleBlur}
+                                //helperText="Please select your currency"
+                                renderInput={(params) => (
+                                    <TextField
+                                    {...params}
+                                    label="Tipo de documento"
+                                    />
+                                )}
+                                >
+                                </Autocomplete>
+                                {formik.touched.document_type && formik.errors.document_type ? (
+                                    <div className='error-below'>{formik.errors.document_type}</div>
+                                ) : null}
+                                <TextField
+                                required
+                                id="outlined-required"
+                                label="Email"
+                                className='input'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                                name="email"
                                 />
-                            )}
-                            >
-                            </Autocomplete>
-                            {formik.touched.document_type && formik.errors.document_type ? (
-                                <div className='error-below'>{formik.errors.document_type}</div>
-                            ) : null}
-                            <TextField
-                            required
-                            id="outlined-number"
-                            label="Documento"
-                            type="number"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            className='input'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.document}
-                            name="document"
-                            />
-                            {formik.touched.document && formik.errors.document ? (
-                                <div className='error-below'>{formik.errors.document}</div>
-                            ) : null}
-                            <TextField
-                            required
-                            id="outlined-required"
-                            label="Email"
-                            className='input'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.email}
-                            name="email"
-                            />
-                            {formik.touched.email && formik.errors.email ? (
-                                <div className='error-below'>{formik.errors.email}</div>
-                            ) : null}
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Contraseña*</InputLabel>
-                                <OutlinedInput
-                                    required
-                                    id="outlined-adornment-password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    className='input-password'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.password}
-                                    endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                        >
-                                        {showPassword ? <VisibilityOff className='icon'/> : <Visibility className='icon'/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
-                            {formik.touched.password && formik.errors.password ? (
-                                <div className='error-below'>{formik.errors.password}</div>
-                            ) : null}
-                            <FormControl variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Verificar Contraseña*</InputLabel>
-                                <OutlinedInput
-                                    required
-                                    id="outlined-adornment-password"
-                                    type={showVerifyPassword ? 'text' : 'password'}
-                                    className='input-password'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.confirmPassword}
-                                    endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowVerifyPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                        >
-                                        {showVerifyPassword ? <VisibilityOff className='icon'/> : <Visibility className='icon'/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </FormControl>
-                            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                                <div className='error-below'>{formik.errors.confirmPassword}</div>
-                            ) : null}
-                        </div>
+                                {formik.touched.email && formik.errors.email ? (
+                                    <div className='error-below'>{formik.errors.email}</div>
+                                ) : null}
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Verificar Contraseña*</InputLabel>
+                                    <OutlinedInput
+                                        required
+                                        id="outlined-adornment-password"
+                                        type={showVerifyPassword ? 'text' : 'password'}
+                                        className='input-password'
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.confirmPassword}
+                                        endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowVerifyPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            >
+                                            {showVerifyPassword ? <VisibilityOff className='icon'/> : <Visibility className='icon'/>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                </FormControl>
+                                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+                                    <div className='error-below'>{formik.errors.confirmPassword}</div>
+                                ) : null}
+                            </Grid>
+                            </div>
+                        </Grid>
                     </Box>
                     <FormGroup className='form'>
                         <FormControlLabel 

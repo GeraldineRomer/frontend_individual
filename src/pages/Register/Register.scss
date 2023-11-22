@@ -50,6 +50,12 @@
             flex-direction: row;
             margin: 20px;
             flex-wrap: wrap;
+            .col{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
             .input{
                 color: #FCF3F7;
                 label{
