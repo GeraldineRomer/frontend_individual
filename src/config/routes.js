@@ -10,6 +10,7 @@ import { NoVerify } from "../pages/NoVerify/NoVerify";
 import { User } from "../pages/User/User";
 import { Dashboard } from "../pages/Admin/Dashboard/Dashboard";
 import { Users } from "../pages/Admin/Users/Users";
+import { ChangePassword } from "../pages/ChangePassword/ChangePassword";
 
 export const GeneralRoutes = [
     { path: "/", component: Home},
@@ -19,22 +20,17 @@ export const GeneralRoutes = [
     { path: "/verify", component: Verify},
     { path: "/noverify", component: NoVerify},
     { path: "/user", component: User},
+    { path: "/changepassword", component: ChangePassword},
 ];
 
 export const AdminRoutes = [
     { 
         path: "/admin", 
-        component: Dashboard, // La ruta principal del dashboard del admin 
-        /* children: [
-            { path: "/users", component: Users },
-        ] */
+        component: Dashboard, 
     },
     { 
         path: "/admin/users", 
-        component: Users, // La ruta principal del dashboard del admin 
-        /* children: [
-            { path: "/users", component: Users },
-        ] */
+        component: Users, 
     },
 ];
 

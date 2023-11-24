@@ -14,9 +14,9 @@ export const MenuOptionsUser = () => {
     const anchorRef = React.useRef(null);
 
     const [showAlertLogout, setshowAlertLogout] = useState(false); 
-
+    
     const [selectedUserId, setSelectedUserId] = useState(null);
-     // Nuevo estado para almacenar el ID del usuario seleccionado para activar/desactivar
+    // Nuevo estado para almacenar el ID del usuario seleccionado para activar/desactivar
     const [showAlert, setShowAlert] = useState(false);
 
     const users = GetUsersComplete();
@@ -114,6 +114,14 @@ export const MenuOptionsUser = () => {
         }
     };
 
+    //mostrar alerta de revisar correo para cambiar la contraseña
+    const [showAlertChangePassword, setshowAlertChangePassword] = useState(false); 
+    const handleAlertChangePassword = () => {
+        setshowAlertChangePassword(true); 
+    };
+    const handleAlertCloseChangePassword = () => {
+        setshowAlertChangePassword(false); 
+    };
 
     return (
         <Stack direction="row" spacing={2} className='container-menu-options'>
@@ -152,6 +160,7 @@ export const MenuOptionsUser = () => {
                                 aria-labelledby="composition-button"
                                 onKeyDown={handleListKeyDown}
                             >
+                                <MenuItem onClick={handleAlertChangePassword}>Cambiar Contraseña</MenuItem>
                                 <MenuItem onClick={handleCancelAccount}>Cancelar Cuenta</MenuItem>
                                 <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
                             </MenuList>
@@ -181,6 +190,16 @@ export const MenuOptionsUser = () => {
                             <div className='btn-alert'>
                                 <Button variant="outlined" onClick={handleAlertCloseLogout} className='btn'>Aceptar</Button>
                                 <Button variant="outlined" onClick={handleAlertCloseCancelLogout} className='btn'>Cancelar</Button>
+                            </div>
+                        </Alert>
+                    </div>
+                )}
+                {showAlertChangePassword && (
+                    <div className="center-alert">
+                        <Alert severity="info">
+                            Revisa tu correo para cambiar la contraseña actual
+                            <div className='btn-alert-change-password'>
+                                <Button variant="outlined" onClick={handleAlertCloseChangePassword} className='btn'>Aceptar</Button>
                             </div>
                         </Alert>
                     </div>

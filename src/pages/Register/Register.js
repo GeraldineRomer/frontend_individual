@@ -5,11 +5,14 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Auth } from '../../api';
 import axios from "axios";
 import { useAuth } from '../../hooks';
-import { useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 
 export const Register = () => {
     const authController = new Auth();
+
+    const [passwordValue, setPasswordValue] = useState('');
+    const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
     
     //selección de departamentos y municipios
     const [munDep, setMunDep] = useState([]);
@@ -51,8 +54,8 @@ export const Register = () => {
             try {
                 const response = await axios.get('https://restcountries.com/v3.1/all');
                 const countriesData = response.data.map((country) => ({
-                value: country.cca2,
-                label: country.name.common,
+                    value: country.cca2,
+                    label: country.name.common,
                 }));
                 setCountries(countriesData);
             } catch (error) {
@@ -74,17 +77,21 @@ export const Register = () => {
                             .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
                             .required('Debes confirmar la contraseña'),
         document: Yup.string().required('El documento es requerido'),
-        document_type: Yup.string().required('El tipo de documento es requerido'),
+        document_type: Yup.string().required('El tipo de documento es requerido').
+                        oneOf(
+                        [
+                        "Cédula",
+                        "Cédula Extranjera",
+                        "Tarjeta Identidad",
+                        "Registro Civil",
+                        ],
+                        "Tipo de documento inválido"
+                    ),
         country: Yup.string().required('El país es requerido'),
         department: isColombiaSelected ? Yup.string().required('El departamento es requerido') : Yup.string(),
         municipality: isColombiaSelected ? Yup.string().required('El municipio es requerido') : Yup.string(),
         acceptTerms: Yup.boolean().oneOf([true], 'Debes aceptar los términos y condiciones para registrarte').required(),
     });
-
-    const handleCountryChange = (selectedOption) => {
-        setSelectedCountry(selectedOption);
-    };
-    
 
     //elegir el municipio a partir del departamento
     const handleDepartamentoChange = (event, value) => {
@@ -99,44 +106,38 @@ export const Register = () => {
     //iniciar sesión
     const { signup } = useAuth();
 
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        document: "",
-        document_type: "",
-        country: "",
-        department: "",
-        municipality: "",
-        acceptTerms: false,
-    });
-
     const [error, setError] = useState("");
 
-    //extraer datos del formulario
-    const handleInputChange = (field, value) => {
-        let processedValue = value;
-        // Si el campo es "document_type" y el valor es un objeto, extraer el campo "label"
-        if (field === "document_type" && typeof value === "object" && value !== null) {
-            processedValue = value.label;
+    const onFinish = async (values) => {
+        console.log("Received values of form: ", values);
+        try {
+            setError("");
+            const response = await authController.register(values);
+            console.log("Soy response" + response);
+            window.location.href = '/verify';
+            authController.setAccessToken(response.access);
+            console.log("Soy response" + response);
+            signup(response);
+            console.log("Soy response" + response);
+        } catch (error) {
+            console.error("Error en onFinish:", error);
+            setError("Error en el servidor con validación de formato de evolución");
         }
-
-        if (field === "acceptTerms") {
-            processedValue = value.target.checked;
-            setIsTermsAccepted(processedValue);
-        }
-        console.log("processedValue : " + processedValue);
-        console.log("isTermsAccepted:", isTermsAccepted);
-
-        setFormData((prevData) => ({
-        ...prevData,
-        [field]: processedValue,
-        }));
-        setIsColombiaSelected(typeof value === 'string' && value.toLowerCase() === 'colombia');
     };
 
     //proceso de finalizar el registro del formulario
+    const initialValues = {
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: '',
+        document: '',
+        document_type: '',
+        country: '',
+        department: '',
+        municipality: '',
+        acceptTerms: false,
+    }
     const formik = useFormik({
         initialValues: {
             firstname: '',
@@ -151,42 +152,36 @@ export const Register = () => {
             acceptTerms: false,
         },
         validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            console.log('Formulario enviado con éxito:', values);
-            // Realiza las acciones correspondientes, como enviar los datos a la API
+        onSubmit: async (values, { setSubmitting }) => {
             try {
+                // Ejecutar las validaciones de formik
+                //await validationSchema.validate(values, { abortEarly: false });
+    
+                // Si las validaciones son exitosas, ejecutar la lógica de onFinish
+                console.log("Received values of form:", values);
                 setError("");
+    
                 const response = await authController.register(values);
                 window.location.href = '/verify';
                 authController.setAccessToken(response.access);
                 signup(response);
             } catch (error) {
+                // Si hay errores de validación o de registro, establecer el error
                 console.error("Error en onSubmit:", error);
-                setError("Error en el servidor con validación de formato de evolución");
+                if (error.name === 'ValidationError') {
+                    const errors = {};
+                    error.inner.forEach((e) => {
+                        errors[e.path] = e.message;
+                    });
+                    formik.setErrors(errors);
+                } else {
+                    setError("Error en el servidor al procesar el registro");
+                }
+            } finally {
+                setSubmitting(false);
             }
         },
-    });
-    /*  const onFinish = async () => {
-        console.log("Received values of form: ", formData);
-        //aceptar términos y condiciones
-        if (!isTermsAccepted) {
-            setError("Debes aceptar los términos y condiciones para registrarte.");
-            return;
-        }
-        try {
-            setError("");
-            const response = await authController.register(formData);
-            console.log("Soy response" + response);
-            window.location.href = '/verify';
-            authController.setAccessToken(response.access);
-            console.log("Soy response" + response);
-            signup(response);
-            console.log("Soy response" + response);
-        } catch (error) {
-            console.error("Error en onFinish:", error);
-            setError("Error en el servidor con validación de formato de evolución");
-        }
-    }; */
+    });    
 
     //campos de tipo de documento
     const documentTypes = [
@@ -220,7 +215,15 @@ export const Register = () => {
     }
 
     return (
-        <form onSubmit={formik.handleSubmit} className='register'>
+        <div className='register'>
+
+        
+        <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onFinish}
+        
+        >
             <div className='register-mask'>
                 <div>
                     <label className='register-label'>Registro</label>
@@ -235,15 +238,19 @@ export const Register = () => {
                         >
                         <Grid container spacing={2}>
                             <div className='info'>
-                            <Grid xs={12} md={6} className='col'>
+                            <Grid item xs={12} md={6} className='col'>
                                 <TextField
                                     required
-                                    id="outlined-required"
+                                    id="outlined-required-firstname"
                                     label="Nombre"
                                     className='input'
-                                    onChange={formik.handleChange}
+                                    onChange={(e) => {
+                                        formik.handleChange(e);
+                                        console.log(`campo register -> : ${formik.values}`);
+                                    }}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.firstname}
+                                    onFocus={() => console.log("Valor actual de firstname:", formik.values.firstname)}
                                     name="firstname"
                                 />
                                 {formik.touched.firstname && formik.errors.firstname ? (
@@ -258,7 +265,9 @@ export const Register = () => {
                                     value={selectedCountry}
                                     onChange={(event, newValue) => {
                                         setSelectedCountry(newValue);
-                                        formik.setFieldValue('country', newValue ? newValue.label : '');
+                                        const newValueLabel = newValue ? newValue.label : '';
+                                        formik.setFieldValue('country', newValueLabel);
+                                        console.log(`Value of 'country' field set to: ${newValueLabel}`);
                                     }}
                                     onBlur={formik.handleBlur}
                                     renderInput={(params) => (
@@ -271,13 +280,14 @@ export const Register = () => {
                                 ) : null}
                                 <Autocomplete
                                 required
+                                id='municipio'
                                 disablePortal
                                 label="Municipio"
                                 options={municipiosFiltrados}
                                 className='input'
                                 onChange={(e, value) => formik.setFieldValue("municipality", value)}
                                 onBlur={formik.handleBlur}
-                                disabled={formData.country !== "Colombia"}
+                                disabled={formik.values.country !== "Colombia"}
                                 renderInput={(params) => (
                                     <TextField
                                     {...params}
@@ -308,15 +318,18 @@ export const Register = () => {
                                     <div className='error-below'>{formik.errors.document}</div>
                                 ) : null}
                                 <FormControl variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Contraseña*</InputLabel>
+                                    <InputLabel htmlFor="outlined-adornment-password" className='input-label'>Contraseña</InputLabel>
                                     <OutlinedInput
                                         required
-                                        id="outlined-adornment-password"
-                                        type={showPassword ? 'text' : 'password'}
+                                        id="outlined-adornment-verify-password"
+                                        type={showPassword ? 'text' : 'Password'}
                                         className='input-password'
-                                        onChange={formik.handleChange}
+                                        onChange={(e) => {
+                                            formik.handleChange(e); // Actualiza el valor en formik
+                                            setPasswordValue(e.target.value); // Actualiza el estado local
+                                        }} 
                                         onBlur={formik.handleBlur}
-                                        value={formik.values.password}
+                                        value={passwordValue} // Usa el estado local para el valor
                                         endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
@@ -330,16 +343,17 @@ export const Register = () => {
                                         </InputAdornment>
                                         }
                                         label="Password"
+                                        name="password"
                                     />
                                 </FormControl>
                                 {formik.touched.password && formik.errors.password ? (
                                     <div className='error-below'>{formik.errors.password}</div>
                                 ) : null}
                             </Grid>
-                            <Grid xs={12} md={6} className='col'>
+                            <Grid item xs={12} md={6} className='col'>
                                 <TextField
                                     required
-                                    id="outlined-required"
+                                    id="outlined-required-lastname"
                                     label="Apellido"
                                     className='input'
                                     onChange={formik.handleChange}
@@ -352,8 +366,7 @@ export const Register = () => {
                                 ) : null}
                                 <Autocomplete
                                 required
-                                id="outlined-select-currency"
-                                select
+                                id="outlined-select-currency-department"
                                 label="Departamento"
                                 className='input'
                                 options={departamentos}
@@ -363,7 +376,7 @@ export const Register = () => {
                                     formik.setFieldValue("department", value);
                                 }}
                                 onBlur={formik.handleBlur}
-                                disabled={formData.country !== "Colombia"}
+                                disabled={formik.values.country !== "Colombia"}
                                 renderInput={(params) => (
                                     <TextField
                                     {...params}
@@ -377,29 +390,33 @@ export const Register = () => {
                                     <div className='error-below'>{formik.errors.department}</div>
                                 ) : null}
                                 <Autocomplete
-                                required
-                                disablePortal
-                                id="outlined-select-currency"
-                                label="Tipo de documento"
-                                options={documentTypes}
-                                className='input'
-                                onChange={(e, value) => formik.setFieldValue("document_type", value)}
-                                onBlur={formik.handleBlur}
-                                //helperText="Please select your currency"
-                                renderInput={(params) => (
-                                    <TextField
-                                    {...params}
-                                    label="Tipo de documento"
-                                    />
-                                )}
-                                >
-                                </Autocomplete>
+                                    required
+                                    disablePortal
+                                    id="outlined-select-currency-document-type"
+                                    options={documentTypes}
+                                    getOptionLabel={(option) => option.label}
+                                    className='input'
+                                    onChange={(e, value) => {
+                                        console.log("Valor seleccionado:", value); // Verifica el valor seleccionado
+                                        if (value) {
+                                            console.log("Valor seleccionado (label):", value.label); // Si el valor tiene una propiedad 'label'
+                                            formik.setFieldValue("document_type", value.label);
+                                        }
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Tipo de documento"
+                                        />
+                                    )}
+                                />
                                 {formik.touched.document_type && formik.errors.document_type ? (
                                     <div className='error-below'>{formik.errors.document_type}</div>
                                 ) : null}
                                 <TextField
                                 required
-                                id="outlined-required"
+                                id="outlined-required-email"
                                 label="Email"
                                 className='input'
                                 onChange={formik.handleChange}
@@ -415,11 +432,14 @@ export const Register = () => {
                                     <OutlinedInput
                                         required
                                         id="outlined-adornment-password"
-                                        type={showVerifyPassword ? 'text' : 'password'}
+                                        type={showVerifyPassword ? 'text' : 'Password'}
                                         className='input-password'
-                                        onChange={formik.handleChange}
+                                        onChange={(e) => {
+                                            formik.handleChange(e); // Actualiza el valor en formik
+                                            setConfirmPasswordValue(e.target.value); // Actualiza el estado local
+                                        }}
                                         onBlur={formik.handleBlur}
-                                        value={formik.values.confirmPassword}
+                                        value={confirmPasswordValue} // Usa el estado local para el valor
                                         endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
@@ -432,7 +452,8 @@ export const Register = () => {
                                             </IconButton>
                                         </InputAdornment>
                                         }
-                                        label="Password"
+                                        label="VerifyPassword"
+                                        name="confirmPassword"
                                     />
                                 </FormControl>
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
@@ -448,13 +469,21 @@ export const Register = () => {
                         control= 
                             {<Checkbox  
                                 className='icon' 
-                                checked={isTermsAccepted} 
-                                onChange={(e) => setIsTermsAccepted(e.target.checked)}
+                                checked={formik.values.acceptTerms} 
+                                onChange={(e) => {
+                                    formik.handleChange(e); // Actualiza el valor en formik
+                                    setIsTermsAccepted(e.target.checked); // Actualiza el estado local
+                                }}
                             />} 
                         label="Acepto" 
                         className='checkbox'
+                        name="acceptTerms"
                         />
-                        {error && <FormHelperText style={{ color: 'red', marginTop: '0.5rem' }}>{error}</FormHelperText>}
+                        {formik.errors.acceptTerms && formik.touched.acceptTerms ? (
+                            <FormHelperText style={{ color: 'red', marginTop: '0.5rem' }}>
+                                {formik.errors.acceptTerms}
+                            </FormHelperText>
+                        ) : null}
                         <a onClick={privacy}>Términos y Condiciones</a>
                     </FormGroup>
                 <div className='login-register'>
@@ -462,9 +491,22 @@ export const Register = () => {
                     <a onClick={login} href='#'>Iniciar Sesión</a>
                 </div>
                 <div className='div-btn-register'>
-                    <Button variant="contained" className='btn-register' type="submit">Registrar</Button>
+                    <Button 
+                        variant="contained" 
+                        className='btn-register' 
+                        type="submit"
+                        onClick={(event) => {
+                            //event.preventDefault(); // Si estás manejando un formulario, puedes prevenir el comportamiento predeterminado del botón submit
+                            console.log("Values al hacer clic:", formik.values);
+                            onFinish(formik.values);
+                            // Aquí puedes agregar cualquier otra lógica que necesites al hacer clic en el botón
+                        }}
+                    >
+                        Registrar
+                    </Button>
                 </div>
             </div>
-        </form>
+        </Formik>
+        </div>
     )
 }

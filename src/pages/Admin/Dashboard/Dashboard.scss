@@ -2,6 +2,33 @@
 
 .dashboard{
     background: #FCF3F7;
-    justify-content: center;
-    align-items: center;
+    .side{
+        background: #47101f;
+        height: 620px;
+        .menu-side{
+            background: #47101f;
+            .ant-menu-item-selected{
+                background: #FCF3F7;
+                color: #47101f;
+            }
+        }
+    }
+    .header{
+        background: #632033;
+        display: flex;
+        justify-content: space-between;
+        .btn-toggle{
+            color: #FCF3F7;
+            &:hover{
+                color: #A82E53;
+            }
+        }
+        .label-logout{
+            color: #FCF3F7;
+            &:hover{
+                cursor: pointer;
+                color: #A82E53;
+            }
+        }
+    }
 }

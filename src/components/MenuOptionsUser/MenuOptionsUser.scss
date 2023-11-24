@@ -9,7 +9,7 @@
         flex-direction: column;
         background-color: #47101F;
         color: #FCF3F7;
-        width: 158px;
+        width: 183px;
     }
 }
 
@@ -42,6 +42,14 @@
             .btn{
                 color: #8C2844;
                 border-color: #8C2844;
+                margin: 10px;
+            }
+        }
+        .btn-alert-change-password{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .btn{
                 margin: 10px;
             }
         }

@@ -1,11 +1,8 @@
 @import '../../../App.scss';
 
-.Users{
-    background: #FCF3F7;
-    display: flex;
-    justify-content: center;
+
     .table-container{
-        height: 500px;
+        height: 400px;
         margin: 10px;
         .off-icon{
             color: red;
@@ -35,4 +32,3 @@
             align-items: center;
         }
     }
-}
