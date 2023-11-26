@@ -81,17 +81,41 @@ export class Auth {
 
     logout = async () => {
         try {
-            // Eliminar los tokens de acceso y actualización del almacenamiento local
             localStorage.removeItem(JWT.ACCESS);
             localStorage.removeItem(JWT.REFRESH);
-            // Aquí podrías agregar lógica adicional, como revocar el token en el servidor si es necesario
-            // Hacer la solicitud al backend para revocar el token
-            /* const response = await axios.post(`${BASE_PATH}/${API_ROUTES.LOGOUT}`, {
-                // Puedes enviar cualquier dato adicional al backend si es necesario
-            }); */
-            /* console.log('Token revocado en el servidor:', response.data); */
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
+            throw error;
+        }
+    };
+
+    /* EMAIL_CHANGE_PASSWORD */
+    changePassword = async () => {
+        const url = `${BASE_PATH}/${API_ROUTES.EMAIL_CHANGE_PASSWORD}`;
+        console.log("la url en verifycode -> " + url);
+        try {
+            const response = await axios.post(url);
+            console.log("response desde auth changePassword -> ", response.data);
+            return response.data;
+        } catch (error) {
+            console.log("error en auth changePassword -> ", error);
+            console.error(error);
+            throw error;
+        }
+    };
+
+    verifyCurrentPassword = async (newPassword, userId) => {
+        const url = `${BASE_PATH}/${API_ROUTES.VERIFY_CURRENT_PASSWORD}`;
+        console.log("url verifyCurrentPassword -> ", url);
+        console.log("id auth verify -> ", userId);
+        try {
+            const response = await axios.post(url, { newPassword, userId });
+            if (response.status === 200) {
+                console.log('La contraseña actual coincide');
+                return true;
+            }
+        } catch (error) {
+            console.error('Error al verificar la contraseña actual:', error);
             throw error;
         }
     };

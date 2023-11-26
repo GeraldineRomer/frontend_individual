@@ -11,7 +11,9 @@ export const ENV = {
         VERIFY_CODE: 'auth/verifycode',
         USERS: 'users',
         UPDATE: 'user/',
-        USERS_COMPLETE: 'userscomplete'
+        USERS_COMPLETE: 'userscomplete',
+        EMAIL_CHANGE_PASSWORD: 'auth/changepassword',
+        VERIFY_CURRENT_PASSWORD: 'auth/verifypassword',
     },
     JWT:{
         ACCESS: "access",

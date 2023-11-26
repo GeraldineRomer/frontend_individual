@@ -116,8 +116,15 @@ export const MenuOptionsUser = () => {
 
     //mostrar alerta de revisar correo para cambiar la contraseña
     const [showAlertChangePassword, setshowAlertChangePassword] = useState(false); 
-    const handleAlertChangePassword = () => {
-        setshowAlertChangePassword(true); 
+    const handleAlertChangePassword = async () => {
+        setshowAlertChangePassword(true);
+        try {
+            const response = await authController.changePassword();
+            console.log('Correo enviado con éxito:', response);
+        } catch (error) {
+            console.error('Error al enviar el correo para cambiar la contraseña:', error);
+            // Aquí puedes manejar el error según tu lógica de frontend
+        }
     };
     const handleAlertCloseChangePassword = () => {
         setshowAlertChangePassword(false); 
