@@ -72,19 +72,23 @@ export const Dashboard = () => {
                         onClick={({ key }) => handleMenuClick(key)}
                         items={[
                             {
-                            key: '1',
-                            icon: <UserOutlined />,
-                            label: 'Usuarios',
+                                key: '1',
+                                icon: <UserOutlined />,
+                                label: 'Usuarios',
                             },
                             {
-                            key: '2',
-                            icon: <ReadOutlined />,
-                            label: 'Libros',
+                                key: '2',
+                                icon: <ReadOutlined />,
+                                label: 'Libros',
                             },
                             {
-                            key: '3',
-                            icon: <CategoryIcon />,
-                            label: 'Categorías',
+                                key: '3',
+                                icon: <CategoryIcon />,
+                                label: 'Categorías',
+                                children: new Array(4).fill(null).map((_, j) => ({
+                                    key: `option${j + 1}`,
+                                    label: `Opción ${j + 1}`,
+                                })),
                             },
                         ]}
                     />
