@@ -14,6 +14,9 @@ export const ENV = {
         USERS_COMPLETE: 'userscomplete',
         EMAIL_CHANGE_PASSWORD: 'auth/changepassword',
         VERIFY_CURRENT_PASSWORD: 'auth/verifypassword',
+        CREATE_CATEGORY: 'category',
+        CATEGORIES: 'categories/all',
+        CREATE_BOOK: 'book',
     },
     JWT:{
         ACCESS: "access",

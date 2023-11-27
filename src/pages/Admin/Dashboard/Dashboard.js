@@ -29,7 +29,7 @@ export const Dashboard = () => {
                 return <Users />;
             case '2':
                 return <Books/>;
-            case '3':
+            case '3.1':
                 return <Categorias/>;
             default:
                 return <Users />; // Componente predeterminado si no se selecciona nada
@@ -85,10 +85,16 @@ export const Dashboard = () => {
                                 key: '3',
                                 icon: <CategoryIcon />,
                                 label: 'Categorías',
-                                children: new Array(4).fill(null).map((_, j) => ({
-                                    key: `option${j + 1}`,
-                                    label: `Opción ${j + 1}`,
-                                })),
+                                children: [
+                                            {
+                                            key: '3.1',
+                                            label: 'Crear Categorías',
+                                            },
+                                            {
+                                            key: '3.2',
+                                            label: 'Listar Categorías',
+                                            },
+                                        ],
                             },
                         ]}
                     />

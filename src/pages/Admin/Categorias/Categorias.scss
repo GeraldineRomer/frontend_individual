@@ -1,0 +1,11 @@
+.crear-categorias{
+    margin: 10px;
+    background: #FCF3F7;
+    .crear-categoria-mask{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+    }
+}

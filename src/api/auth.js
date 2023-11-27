@@ -119,4 +119,91 @@ export class Auth {
             throw error;
         }
     };
+
+    createCategory = async (data, accessToken) => {
+        const url = `${BASE_PATH}/${API_ROUTES.CREATE_CATEGORY}`;
+        console.log(url);
+        const accessTokenString = accessToken; 
+        console.log("el accesstokenstring en createCategory", accessTokenString);
+        console.log("data en createCategory", data);
+        try {
+            const response = await axios.post(url, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessTokenString}`,
+                },
+            });
+            console.log("response desde auth createCategory -> ", response);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    getCategories = async (accessToken) => {
+        const url = `${BASE_PATH}/${API_ROUTES.CATEGORIES}`;
+        console.log(url);
+        const accessTokenString = accessToken; 
+        console.log("el accesstokenstring en getCategories", accessTokenString);
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessTokenString}`,
+                },
+            });
+            console.log("response desde auth getCategories -> ", response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    createBook = async (data, accessToken) => {
+        const url = `${BASE_PATH}/${API_ROUTES.CREATE_BOOK}`;
+        console.log(url);
+        const accessTokenString = accessToken; 
+        console.log("el accesstokenstring en createBook", accessTokenString);
+        console.log("data en createBook", data);
+        const formData = new FormData();
+        formData.append('title', data.title);
+        formData.append('author', data.author);
+        formData.append('price', data.price);
+        formData.append('description', data.description);
+        formData.append('category', data.category);
+        formData.append('status', data.status);
+        formData.append('images', data.images);
+        console.log("formdata en createBook", formData.category);
+        try {
+            const response = await axios.post(url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessTokenString}`,
+                },
+            });
+            console.log("response desde auth createBook -> ", response);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    GetBooks = async (page = 1, limit = 5) => {
+        try {
+            const url = `${BASE_PATH}/${API_ROUTES.USERS}?page=${page}&limit=${limit}`;
+            console.log("url get users -> " + url);
+            const response = await axios.get(url);
+            console.log('respuesta de usuarios', response.data);
+            return {
+                results: response.data.results,
+                next: response.data.next
+            };
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    };
 }

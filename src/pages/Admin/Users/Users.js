@@ -118,8 +118,7 @@ export const Users = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            
-                <Grid md={12} xs={12}>
+                <Grid item md={12} xs={12}>
                     <Stack spacing={2} className='pagination'>
                         <Pagination
                             count={totalPages}
