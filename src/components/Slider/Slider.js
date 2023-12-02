@@ -15,10 +15,6 @@ import Modal from '@mui/material/Modal';
 import { Add, Star } from '@mui/icons-material';
 import { useFavorites } from '../FavoriteList/FavoriteList';
 import { useAdds } from '../AddList/AddList';
-import { Reveal } from '../ScrollReveal/Reveal';
-
-
-
 
 const Slider = ({ libros }) => {
 

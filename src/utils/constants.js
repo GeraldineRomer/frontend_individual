@@ -17,6 +17,8 @@ export const ENV = {
         CREATE_CATEGORY: 'category',
         CATEGORIES: 'categories/all',
         CREATE_BOOK: 'book',
+        BOOKS_PAGINATION: 'books',
+        BOOKS: 'bookscomplete',
     },
     JWT:{
         ACCESS: "access",

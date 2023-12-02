@@ -11,6 +11,7 @@ import { User } from "../pages/User/User";
 import { Dashboard } from "../pages/Admin/Dashboard/Dashboard";
 import { Users } from "../pages/Admin/Users/Users";
 import { ChangePassword } from "../pages/ChangePassword/ChangePassword";
+import { Pqrsf } from "../pages/Pqrsf/Pqrsf";
 
 export const GeneralRoutes = [
     { path: "/", component: Home},
@@ -21,6 +22,7 @@ export const GeneralRoutes = [
     { path: "/noverify", component: NoVerify},
     { path: "/user", component: User},
     { path: "/changepassword", component: ChangePassword},
+    { path: "/pqrsf", component: Pqrsf},
 ];
 
 export const AdminRoutes = [

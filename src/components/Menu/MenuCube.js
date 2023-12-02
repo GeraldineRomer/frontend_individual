@@ -51,7 +51,7 @@ export const MenuCube = () => {
                                                 offset={-100}
                                                 duration={500}
                                             >
-                                                Home
+                                                Inicio
                                             </Link>
                                         </li>
                                         <li>
@@ -63,7 +63,7 @@ export const MenuCube = () => {
                                                 offset={-30}
                                                 duration={500}
                                             >
-                                                Books
+                                                Libros
                                             </Link>
                                         </li>
                                         <li>
@@ -75,7 +75,7 @@ export const MenuCube = () => {
                                                 offset={-100}
                                                 duration={500}
                                             >
-                                                Author
+                                                Autor
                                             </Link>
                                         </li>
                                         <li>
@@ -87,11 +87,13 @@ export const MenuCube = () => {
                                                 offset={-100}
                                                 duration={500}
                                             >
-                                                Book
+                                                Libro
                                             </Link>
                                         </li>
+                                        <li>
+                                            <Link onClick={login}>Iniciar Sesión</Link>
+                                        </li>
                                     </ul>
-                                    <PersonIcon onClick={login} className='login-a' id='login'></PersonIcon>
                                 </div>
                             </Grid>
                         </Grid>

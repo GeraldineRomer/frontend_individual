@@ -82,6 +82,7 @@ export const Footer = () => {
                                 Politica de privacidad y de datos
                             </label>
                         </div>
+                        <Link to='/pqrsf'>PQRSF</Link>
                     </div>    
                 </Grid>
             </Grid>

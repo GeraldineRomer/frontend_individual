@@ -5,14 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { FavoritesProvider } from '../src/components/FavoriteList/FavoriteList';
 import { AddsProvider } from './components/AddList/AddList';
+import { BooksProvider } from './components/BooksList/BooksList';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <FavoritesProvider>
-        <AddsProvider>
-            <App />
-        </AddsProvider>
-    </FavoritesProvider>
+    <BooksProvider>
+        <FavoritesProvider>
+            <AddsProvider>
+                <App />
+            </AddsProvider>
+        </FavoritesProvider>
+    </BooksProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

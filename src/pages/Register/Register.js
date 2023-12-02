@@ -114,7 +114,7 @@ export const Register = () => {
             setError("");
             const response = await authController.register(values);
             console.log("Soy response" + response);
-            window.location.href = '/verify';
+            //window.location.href = '/verify';
             authController.setAccessToken(response.access);
             console.log("Soy response" + response);
             signup(response);

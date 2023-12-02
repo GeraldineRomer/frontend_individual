@@ -175,6 +175,7 @@ export class Auth {
         formData.append('category', data.category);
         formData.append('status', data.status);
         formData.append('images', data.images);
+        formData.append('active', data.active);
         console.log("formdata en createBook", formData.category);
         try {
             const response = await axios.post(url, formData, {
@@ -191,16 +192,43 @@ export class Auth {
         }
     }
 
-    GetBooks = async (page = 1, limit = 5) => {
+    GetBooks = async (page = 1, limit = 5, accessToken) => {
+        const url = `${BASE_PATH}/${API_ROUTES.BOOKS_PAGINATION}?page=${page}&limit=${limit}`;
+        console.log("url get users -> " + url);
+        const accessTokenString = accessToken; 
+        console.log("el accesstokenstring en getBooks", accessTokenString);
         try {
-            const url = `${BASE_PATH}/${API_ROUTES.USERS}?page=${page}&limit=${limit}`;
-            console.log("url get users -> " + url);
-            const response = await axios.get(url);
-            console.log('respuesta de usuarios', response.data);
+            const response = await axios.get(url, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessTokenString}`,
+                },
+            });
+            console.log('respuesta de libros', response.data);
             return {
                 results: response.data.results,
                 next: response.data.next
             };
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    };
+
+    GetBooksComplete = async (accessToken) => {
+        const url = `${BASE_PATH}/${API_ROUTES.BOOKS}`;
+        console.log("url get users -> " + url);
+        const accessTokenString = accessToken; 
+        console.log("el accesstokenstring en getBooksComplete ", accessTokenString);
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessTokenString}`,
+                },
+            });
+            console.log('respuesta de libros completos', response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
             return [];

@@ -13,6 +13,7 @@ import { Books } from '../Books/Books';
 import { Categorias } from '../Categorias/Categorias';
 import { Alert, AlertTitle } from '@mui/material';
 import { Auth } from '../../../api';
+import { ListCategories } from '../ListCategories/ListCategories';
 const { Header, Sider, Content } = Layout;
 
 export const Dashboard = () => {
@@ -29,8 +30,8 @@ export const Dashboard = () => {
                 return <Users />;
             case '2':
                 return <Books/>;
-            case '3.1':
-                return <Categorias/>;
+            case '3':
+                return <ListCategories/>;
             default:
                 return <Users />; // Componente predeterminado si no se selecciona nada
         }
@@ -85,16 +86,6 @@ export const Dashboard = () => {
                                 key: '3',
                                 icon: <CategoryIcon />,
                                 label: 'Categorías',
-                                children: [
-                                            {
-                                            key: '3.1',
-                                            label: 'Crear Categorías',
-                                            },
-                                            {
-                                            key: '3.2',
-                                            label: 'Listar Categorías',
-                                            },
-                                        ],
                             },
                         ]}
                     />

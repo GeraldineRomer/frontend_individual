@@ -1,0 +1,26 @@
+.pqrsf{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FCF3F7;
+    .mask-pqrsf{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+        flex-direction: column;
+        .col{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .input-pqrsf{
+                margin: 10px;
+                width: 300px;
+            }
+        }
+        .editor{
+            margin: 20px 0;
+        }
+    }
+}
