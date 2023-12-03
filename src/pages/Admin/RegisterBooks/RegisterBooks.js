@@ -17,7 +17,6 @@ export const RegisterBooks = () => {
     const [description, setDescription] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [switchValue, setSwitchValue] = useState(false);
-    const [switchActive, setSwitchActive] = useState(false);
     const [price, setPrice] = useState(0);
     //obtener token
     const [token,setToken] = useState(null);
@@ -56,7 +55,6 @@ export const RegisterBooks = () => {
             category: categoryId,
             status: switchValue,
             images: selectedFile,
-            active: switchActive
         };
         console.log("formData -> ", bookData);
         if (selectedFile) {
@@ -128,15 +126,6 @@ export const RegisterBooks = () => {
                     />
                 }
                 label="Disponible"
-            />
-            <FormControlLabel
-                control={
-                    <Switch
-                        checked={switchActive}
-                        onChange={(e) => setSwitchActive(e.target.checked)} // Actualiza el estado interno del Switch
-                    />
-                }
-                label="Activo"
             />
             <InputFile
                 accept="image/*"

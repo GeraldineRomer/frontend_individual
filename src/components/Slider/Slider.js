@@ -128,7 +128,9 @@ const Slider = ({ libros }) => {
                                             <Grid container spacing={0}>
                                                 <Grid item xs={12} md={12}>
                                                     <div className='img-book'>
-                                                        <img src={libro.image} alt={`Portada de ${libro.title}`} />
+                                                        <img 
+                                                            src={`data:image/png;base64,${libro.images[0]}`}
+                                                            alt={`Portada de ${libro.title}`} />
                                                     </div>
                                                 </Grid>
                                                 <Grid item xs={12} md={12}>

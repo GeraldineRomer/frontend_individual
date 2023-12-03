@@ -91,6 +91,18 @@ export const MenuCube = () => {
                                             </Link>
                                         </li>
                                         <li>
+                                            <Link
+                                                activeClass="active"
+                                                to="Section6"
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-100}
+                                                duration={500}
+                                            >
+                                                Nuevo
+                                            </Link>
+                                        </li>
+                                        <li>
                                             <Link onClick={login}>Iniciar Sesión</Link>
                                         </li>
                                     </ul>

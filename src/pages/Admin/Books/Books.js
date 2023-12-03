@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Books.scss';
-import { Autocomplete, Box, Checkbox, Grid, Pagination, Paper, Stack, Switch, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextField, Typography, styled, tableCellClasses } from '@mui/material';
+import { Alert, Autocomplete, Box, Checkbox, Grid, Pagination, Paper, Stack, Switch, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextField, Typography, styled, tableCellClasses } from '@mui/material';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import PropTypes from 'prop-types';
@@ -32,31 +32,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
-    return (
-    <div
-        role="tabpanel1" // Corregí el valor del atributo role
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`} // Corregí el atributo aria-aria-labelledby a aria-labelledby
-        {...other}
-    >
-        {value === index && (
-        <Box sx={{ p: 4 }}>
-            <Typography style={{fontFamily:'MontaguSlab', fontSize: '18px'}}>{children}</Typography>
-        </Box>
-        )}
-    </div>
-    );
-}
-
 export const Books = () => {
     const [books, setBooks] = useState([]);
     const [bookscomplete, setBooksComplete] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const booksPerPage = 5;
+    const booksPerPage = 10;
     
     //obtener token
     const [token,setToken] = useState(null);
@@ -120,12 +101,30 @@ export const Books = () => {
     }, [token, currentPage, booksPerPage]);
 
     //obtener todos los libros sin página
+    const [activatedCount, setActivatedCount] = useState(0);
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
                 const books_ = await authController.GetBooksComplete(token);
                 setBooksComplete(books_);
+                setLoadingAllBooks(false);
                 console.log("books complete ", bookscomplete);
+
+                // Calcular el conteo total de libros activados
+                const updatedActivatedCount = books_.reduce((acc, book) => {
+                    return book.active ? acc + 1 : acc;
+                }, 0);
+                console.log("updatedActivatedCount ", updatedActivatedCount);
+                setActivatedCount(updatedActivatedCount);
+                if (updatedActivatedCount > 6) {
+                    setAlert({ type: 'warning', message: 'Haz excedido el límite ' });
+                    return;
+                } else if (updatedActivatedCount < 6){
+                    console.log("noo excedí la cantidad de activados ");
+                    setAlert({ type: 'warning', message: 'Faltan libros por mostrar' }); // Ocultar la alerta si no se excede el límite
+                } else {
+                    setAlert({ type: '', message: '' });
+                }
             } catch (error) {
                 console.error("Error al obtener todos los libros", error);
             } finally {
@@ -170,7 +169,98 @@ export const Books = () => {
         });
         setFilteredBooks(booksForSelectedCategory); // Mostrar libros de la categoría seleccionada
     }
-            
+    };
+
+    //cambiar estado de libros
+    // Estado para la cantidad de libros activados
+    const [allBooks, setAllBooks] = useState([]); 
+    const [alert, setAlert] = useState({ type: '', message: '' });
+    const handleActiveCheckboxChange = async (event, bookId) => {
+        try {
+            const updatedBooks = filteredBooks.map(book => {
+                if (book._id === bookId) {
+                    const updatedBook  = { ...book, active: !book.active };
+                    updateBookData(bookId, updatedBook);
+                    return updatedBook;
+                }
+                return book;
+            });
+            setFilteredBooks(updatedBooks);
+            console.log("setFilteredBooks ", updatedBooks);
+            // Calcular el conteo total de libros activados
+            const updatedActivatedCount = updatedBooks.reduce((acc, book) => {
+                return book.active ? acc + 1 : acc;
+            }, 0);
+            console.log("updatedActivatedCount ", updatedActivatedCount);
+            //setActivatedCount(updatedActivatedCount);
+            // Mostrar alerta si se excede el límite de 6 libros activados
+            if (updatedActivatedCount > 6) {
+                console.log("excedí la cantidad de activados ");
+                setAlert({ type: 'warning', message: 'Haz excedido el límite de libros a mostrar' });
+            } else if (updatedActivatedCount < 6){
+                console.log("noo excedí la cantidad de activados ");
+                setAlert({ type: 'warning', message: 'Faltan libros por mostrar' }); // Ocultar la alerta si no se excede el límite
+            } else {
+                setAlert({ type: '', message: '' });
+            }
+            console.log("updatedTotalActivatedCount ", updatedActivatedCount);
+        } catch (error) {
+            console.error("Error al actualizar el estado del libro:", error);
+        }
+    };
+
+    const updateBookData = async (bookId, updatedBook) => {
+        try {
+            const accessToken = await authController.getAccessToken();
+            await authController.ActiveBooks(bookId, updatedBook, accessToken);
+            console.log(`Estado actualizado para el libro con ID: ${bookId}`);
+        } catch (error) {
+            console.error("Error al actualizar el libro:", error);
+        }
+    };
+
+    //cambiar la disponibilidad del libro
+    const [valueAvailable, setValueAvailable] = useState(null);
+    const handleActiveSwitchChange = async (event, bookId) => {
+        try {
+            const updatedBooks = filteredBooks.map(book => {
+                if (book._id === bookId) {
+                    const updatedBook  = { ...book, status: !book.status };
+                    updateStatusBookData(bookId, updatedBook);
+                    return updatedBook;
+                }
+                return book;
+            });
+            setFilteredBooks(updatedBooks);
+            console.log("setFilteredBooks ", updatedBooks);
+        } catch (error) {
+            console.error("Error al actualizar la disponibilidad del libro:", error);
+        }
+    };
+
+    const updateStatusBookData = async (bookId, updatedBook) => {
+        try {
+            const accessToken = await authController.getAccessToken();
+            await authController.StatusBooks(bookId, updatedBook, accessToken);
+            console.log(`Estado actualizado para el libro con ID: ${bookId}`);
+        } catch (error) {
+            console.error("Error al actualizar el libro:", error);
+        }
+    };
+
+    const handleAvailabilityChange = (event, newValue) => {
+        setValueAvailable(newValue); // Actualizar valor seleccionado en el Autocomplete
+    
+        if (newValue === null) {
+            // Si se borra la selección, mostrar todos los libros
+            setFilteredBooks(bookscomplete);
+        } else if (newValue.name === 'Disponible') {
+            const availableBooks = bookscomplete.filter(book => book.status === true);
+            setFilteredBooks(availableBooks); // Mostrar libros disponibles
+        } else if (newValue.name === 'No disponible') {
+            const unavailableBooks = bookscomplete.filter(book => book.status === false);
+            setFilteredBooks(unavailableBooks); // Mostrar libros no disponibles
+        }
     };
 
     return (
@@ -179,10 +269,23 @@ export const Books = () => {
                 <Autocomplete
                     value={value}
                     onChange={handleAutocompleteChange}
-                    options={categories}
+                    options={categories.filter(category => category.active)}
                     getOptionLabel={(option) => option.name}
                     renderInput={(params) => <TextField {...params} label="Categorías" />}
-                    />
+                />
+            </Box>
+            <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                <Autocomplete
+                    value={valueAvailable}
+                    onChange={handleAvailabilityChange}
+                    options={[
+                        { name: 'Disponible' },
+                        { name: 'No disponible' },
+                        // Agrega más opciones si es necesario
+                    ]}
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => <TextField {...params} label="Disponibilidad" />}
+                />
             </Box>
                 <Grid container spacing={0}>    
                 <TableContainer component={Paper} aria-label="customized table" className='table-container' value={value}>
@@ -193,6 +296,7 @@ export const Books = () => {
                                 <StyledTableCell align="center">Título</StyledTableCell>
                                 <StyledTableCell align="center">Autor</StyledTableCell>
                                 <StyledTableCell align="center">Descripción</StyledTableCell>
+                                <StyledTableCell align="center">Precio</StyledTableCell>
                                 <StyledTableCell align="center">Disponible</StyledTableCell>
                                 <StyledTableCell align="center">Activo</StyledTableCell>
                             </TableRow>
@@ -210,14 +314,17 @@ export const Books = () => {
                                 <StyledTableCell align="center">{book.title}</StyledTableCell>
                                 <StyledTableCell align="center">{book.author}</StyledTableCell>
                                 <StyledTableCell align="center">{book.description}</StyledTableCell>
+                                <StyledTableCell align="center">{book.price}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Switch
                                         checked={book.status} 
+                                        onChange={(event) => handleActiveSwitchChange(event, book._id)}
                                     />
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Checkbox 
                                         checked={book.active} 
+                                        onChange={(event) => handleActiveCheckboxChange(event, book._id)}
                                     />
                                 </StyledTableCell>
                             </StyledTableRow>
@@ -241,6 +348,11 @@ export const Books = () => {
                     <Button type="primary" >
                         Publicar
                     </Button>
+                    {alert.type === 'warning' && (
+                        <Alert variant="outlined" severity="error">
+                            {alert.message}
+                        </Alert>
+                    )}
                 </Grid>
                     <Grid item md={12} xs={12}>
                         <Stack spacing={2} className='pagination'>

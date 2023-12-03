@@ -61,6 +61,40 @@ export const ListCategories = () => {
         checkUserSession();
     }, []);
 
+    //cambiar el estado de la categoria, si está desactivada también se desactiva el libro
+    const handleCategorySwitchChange = async (event, categoryId) => {
+        try {
+            // Actualizar el estado de la categoría localmente
+            const updatedCategories = categories.map(category => {
+                if (category._id === categoryId) {
+                    return { ...category, active: !category.active };
+                }
+                return category;
+            });
+            setCategories(updatedCategories);
+
+            // Obtener la lista de libros asociados a la categoría
+            const books = await authController.GetBooksComplete(token);
+
+            // Desactivar los libros asociados si la categoría se desactiva
+            if (!updatedCategories.find(category => category._id === categoryId).active) {
+                const updatedBooks = books.map(book => {
+                    if (book.category._id === categoryId) {
+                        return { ...book, active: false };
+                    }
+                    return book;
+                });
+                // Actualizar el estado de los libros desactivados en la base de datos
+                await Promise.all(updatedBooks.map(book => authController.ActiveBooks(book._id, book, token)));
+            }
+            
+            // Actualizar el estado de la categoría en la base de datos
+            await authController.ActiveCategories(categoryId, { active: updatedCategories.find(category => category._id === categoryId).active }, token);
+        } catch (error) {
+            console.error("Error al cambiar el estado de la categoría:", error);
+        }
+    };
+
     return (
         <div>
             <Grid container spacing={0}>    
@@ -79,6 +113,7 @@ export const ListCategories = () => {
                             <StyledTableCell align="center">
                                 <Switch
                                     checked={category.active} 
+                                    onChange={(event) => handleCategorySwitchChange(event, category._id)} // Manejador de cambio
                                 />
                             </StyledTableCell>
                         </StyledTableRow>

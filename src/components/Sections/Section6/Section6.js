@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import './Section1.scss';
-import Slider from '../../Slider/Slider';
-import { useSelectedBooks } from '../../BooksList/BooksList';
+import React, { useEffect, useState } from 'react';
+import './Section6.scss';
 import { Auth } from '../../../api/auth'; 
+import Slider from '../../Slider/Slider';
 
 const authController = new Auth();
 
-export const Section1 = () => {
+export const Section6 = () => {
     const [allBooks, setAllBooks] = useState([]);
     const [books, setBooks] = useState([]);
     useEffect(() => {
@@ -26,15 +25,15 @@ export const Section1 = () => {
 
     useEffect(() => {
         // Obtener solo los libros disponibles
-        const availableBooks = allBooks.filter(book => book.status === true);
+        const availableBooks = allBooks.filter(book => book.status === true && book.active);
     
         // Actualizar la lista de libros para el slider con los libros disponibles
         setBooks(availableBooks);
     }, [allBooks]);
-
     return (
         <div className="Section1">
             <Slider libros={books}/>
         </div>
     )
 }
+

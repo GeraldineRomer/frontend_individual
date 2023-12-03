@@ -192,7 +192,7 @@ export class Auth {
         }
     }
 
-    GetBooks = async (page = 1, limit = 5, accessToken) => {
+    GetBooks = async (page = 1, limit = 10, accessToken) => {
         const url = `${BASE_PATH}/${API_ROUTES.BOOKS_PAGINATION}?page=${page}&limit=${limit}`;
         console.log("url get users -> " + url);
         const accessTokenString = accessToken; 
@@ -232,6 +232,93 @@ export class Auth {
         } catch (error) {
             console.error(error);
             return [];
+        }
+    };
+
+    ActiveBooks = async (bookId, newStatus, accessToken) => {
+        const accessTokenString = accessToken;
+        console.log("accessTokenString en active books en auth -> " + accessTokenString);
+        console.log("newStatus en activebooks ", newStatus);
+        const status = newStatus.active;
+        try {
+            const url = `${BASE_PATH}/${API_ROUTES.BOOKS_UPDATE}${bookId}`;
+            console.log("url patch users -> " + url);
+            // Enviar solo la información necesaria para la actualización (en este caso, el estado activo)
+            const response = await axios.patch(
+                url,
+                { active: status }, // Invertir el estado de activación/desactivación
+                {
+                    headers: {
+                        "Content-Type": 'application/json',
+                        Authorization: `Bearer ${accessTokenString}`,
+                    },
+                }
+            );
+            console.log("Respuesta después del PATCH -> ", response.data);
+            if (response.status !== 200) {
+                throw new Error('Error al activar el libro en el servidor');
+            }
+            return response.data;
+        } catch (error) {
+            console.error('error al cambiar de estado del libro',error);
+        }
+    };
+    
+    ActiveCategories = async (categoryId, newStatus, accessToken) => {
+        const accessTokenString = accessToken;
+        console.log("accessTokenString en active books en auth -> " + accessTokenString);
+        console.log("newStatus en activebooks ", newStatus);
+        const status = newStatus.active;
+        try {
+            const url = `${BASE_PATH}/${API_ROUTES.CATEGORIES_UPDATE}${categoryId}`;
+            console.log("url patch users -> " + url);
+            // Enviar solo la información necesaria para la actualización (en este caso, el estado activo)
+            const response = await axios.patch(
+                url,
+                { active: status }, // Invertir el estado de activación/desactivación
+                {
+                    headers: {
+                        "Content-Type": 'application/json',
+                        Authorization: `Bearer ${accessTokenString}`,
+                    },
+                }
+            );
+            console.log("Respuesta después del PATCH -> ", response.data);
+            if (response.status !== 200) {
+                throw new Error('Error al activar el libro en el servidor');
+            }
+            return response.data;
+        } catch (error) {
+            console.error('error al cambiar de estado del libro',error);
+        }
+    };
+
+    StatusBooks = async (bookId, newStatus, accessToken) => {
+        const accessTokenString = accessToken;
+        console.log("accessTokenString en active books en auth -> " + accessTokenString);
+        console.log("newStatus en activebooks ", newStatus);
+        const status = newStatus.status;
+        try {
+            const url = `${BASE_PATH}/${API_ROUTES.BOOKS_UPDATE}${bookId}`;
+            console.log("url patch users -> " + url);
+            // Enviar solo la información necesaria para la actualización (en este caso, el estado activo)
+            const response = await axios.patch(
+                url,
+                { status: status }, 
+                {
+                    headers: {
+                        "Content-Type": 'application/json',
+                        Authorization: `Bearer ${accessTokenString}`,
+                    },
+                }
+            );
+            console.log("Respuesta después del PATCH -> ", response.data);
+            if (response.status !== 200) {
+                throw new Error('Error al activar el libro en el servidor');
+            }
+            return response.data;
+        } catch (error) {
+            console.error('error al cambiar de estado del libro',error);
         }
     };
 }
