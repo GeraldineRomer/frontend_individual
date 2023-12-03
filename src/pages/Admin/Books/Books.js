@@ -9,6 +9,7 @@ import { Categorias } from '../Categorias/Categorias';
 import { Auth } from '../../../api/auth'; 
 import { RegisterBooks } from '../RegisterBooks/RegisterBooks';
 import { useSelectedBooks } from '../../../components/BooksList/BooksList';
+import { Pdf } from '../../../components/Pdf/Pdf';
 
 const authController = new Auth();
 
@@ -153,22 +154,27 @@ export const Books = () => {
     };
     
     //mostrar libros por filtros
+    // Nuevo estado para las selecciones de categoría y disponibilidad
+    const [selectedCategoryAvailability, setSelectedCategoryAvailability] = useState(null);
+    const [selectedAvailability, setSelectedAvailability] = useState(null);
+
     const handleAutocompleteChange = (event, newValue) => {
-        setValue(newValue); // Actualizar valor seleccionado en el Autocomplete
-        console.log("value ", value);
-        if (newValue === null) {
+        setValue(newValue);
+        setSelectedCategoryAvailability(newValue);
+        filterBooks(newValue, selectedAvailability);
+        /* if (newValue === null) {
             // Si se borra la selección, mostrar todos los libros
             setFilteredBooks(bookscomplete);
             setSelectedCategory(null);
         } else if (newValue.name === 'Todo') {
             setFilteredBooks(books);
         } else {
-        setSelectedCategory(newValue);
-        const booksForSelectedCategory = bookscomplete.filter(book => {
-            return book.category._id === newValue._id;
-        });
-        setFilteredBooks(booksForSelectedCategory); // Mostrar libros de la categoría seleccionada
-    }
+            setSelectedCategory(newValue);
+            const booksForSelectedCategory = bookscomplete.filter(book => {
+                return book.category._id === newValue._id;
+            });
+            setFilteredBooks(booksForSelectedCategory); // Mostrar libros de la categoría seleccionada
+        } */
     };
 
     //cambiar estado de libros
@@ -250,8 +256,9 @@ export const Books = () => {
 
     const handleAvailabilityChange = (event, newValue) => {
         setValueAvailable(newValue); // Actualizar valor seleccionado en el Autocomplete
-    
-        if (newValue === null) {
+        setSelectedAvailability(newValue);
+        filterBooks(selectedCategoryAvailability, newValue);
+        /* if (newValue === null) {
             // Si se borra la selección, mostrar todos los libros
             setFilteredBooks(bookscomplete);
         } else if (newValue.name === 'Disponible') {
@@ -260,6 +267,38 @@ export const Books = () => {
         } else if (newValue.name === 'No disponible') {
             const unavailableBooks = bookscomplete.filter(book => book.status === false);
             setFilteredBooks(unavailableBooks); // Mostrar libros no disponibles
+        } */
+    };
+
+    //filtrar por categoría y disponibilidad
+    const filterBooks = (category, availability) => {
+        if (category === null && availability === null) {
+            // Si no se selecciona categoría ni disponibilidad, mostrar todos los libros
+            setFilteredBooks(books);
+        } else if (category !== null && availability !== null) {
+            // Filtrar por categoría y disponibilidad seleccionadas
+            const filtered = bookscomplete.filter(book => {
+                return (
+                    (availability.name === 'Disponible' ? book.status === true : book.status === false) &&
+                    book.category._id === category._id
+                );
+            });
+            setFilteredBooks(filtered);
+        } else if (category !== null) {
+            // Filtrar solo por categoría seleccionada
+            const filtered = bookscomplete.filter(book => book.category._id === category._id);
+            setFilteredBooks(filtered);
+        } else if (availability !== null) {
+            // Filtrar solo por disponibilidad seleccionada
+            const filtered = bookscomplete.filter(book => {
+                return availability.name === 'Disponible' ? book.status === true : book.status === false;
+            });
+            setFilteredBooks(filtered);
+        } else if (category.name === 'Todo'){
+            const filtered = bookscomplete.filter(book => {
+                return availability.name === 'Disponible' ? book.status === true : book.status === false;
+            });
+            setFilteredBooks(filtered);
         }
     };
 
@@ -345,9 +384,7 @@ export const Books = () => {
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                         <RegisterBooks/>
                     </Modal>
-                    <Button type="primary" >
-                        Publicar
-                    </Button>
+                    <Pdf/>
                     {alert.type === 'warning' && (
                         <Alert variant="outlined" severity="error">
                             {alert.message}
