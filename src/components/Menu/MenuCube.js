@@ -1,14 +1,11 @@
 import React from 'react';
 import './MenuCube.scss';
-import Logo  from '../../assets/img/logoblanco.png';
+import Logo  from '../../assets/img/logo-color.png';
 import { Link, animateScroll as scroll } from "react-scroll";
 import { Grid } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 export const MenuCube = () => {
-    /* scrollToTop = () => {
-        scroll.scrollToTop();
-    }; */
     const burguer = () => {
         const toggle = document.getElementById('toggle');
         const items = document.getElementById('items');

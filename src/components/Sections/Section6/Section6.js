@@ -11,9 +11,7 @@ export const Section6 = () => {
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
-                const accessToken = await authController.getAccessToken();
-                console.log("accessToken ", accessToken);
-                const books_ = await authController.GetBooksComplete(accessToken);
+                const books_ = await authController.GetBooksComplete();
                 setAllBooks(books_);
                 console.log("books complete ", books_);
             } catch (error) {
@@ -31,7 +29,7 @@ export const Section6 = () => {
         setBooks(availableBooks);
     }, [allBooks]);
     return (
-        <div className="Section1">
+        <div className="Section6">
             <Slider libros={books}/>
         </div>
     )

@@ -192,16 +192,13 @@ export class Auth {
         }
     }
 
-    GetBooks = async (page = 1, limit = 10, accessToken) => {
+    GetBooks = async (page = 1, limit = 10) => {
         const url = `${BASE_PATH}/${API_ROUTES.BOOKS_PAGINATION}?page=${page}&limit=${limit}`;
         console.log("url get users -> " + url);
-        const accessTokenString = accessToken; 
-        console.log("el accesstokenstring en getBooks", accessTokenString);
         try {
             const response = await axios.get(url, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${accessTokenString}`,
                 },
             });
             console.log('respuesta de libros', response.data);
@@ -215,16 +212,13 @@ export class Auth {
         }
     };
 
-    GetBooksComplete = async (accessToken) => {
+    GetBooksComplete = async () => {
         const url = `${BASE_PATH}/${API_ROUTES.BOOKS}`;
         console.log("url get users -> " + url);
-        const accessTokenString = accessToken; 
-        console.log("el accesstokenstring en getBooksComplete ", accessTokenString);
         try {
             const response = await axios.get(url, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${accessTokenString}`,
                 },
             });
             console.log('respuesta de libros completos', response.data);

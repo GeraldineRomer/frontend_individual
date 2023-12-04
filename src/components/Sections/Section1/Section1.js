@@ -12,9 +12,7 @@ export const Section1 = () => {
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
-                const accessToken = await authController.getAccessToken();
-                console.log("accessToken ", accessToken);
-                const books_ = await authController.GetBooksComplete(accessToken);
+                const books_ = await authController.GetBooksComplete();
                 setAllBooks(books_);
                 console.log("books complete ", books_);
             } catch (error) {

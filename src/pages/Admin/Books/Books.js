@@ -83,7 +83,7 @@ export const Books = () => {
                     setValue(categoriesData[categoriesData.length - 1]);
                 }
 
-                const { results, next } = await authController.GetBooks(currentPage, booksPerPage, token);
+                const { results, next } = await authController.GetBooks(currentPage, booksPerPage);
                 setBooks(results);
                 console.log("books ", results);
                 setTotalPages(next ? next.page : 0);
@@ -106,7 +106,7 @@ export const Books = () => {
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
-                const books_ = await authController.GetBooksComplete(token);
+                const books_ = await authController.GetBooksComplete();
                 setBooksComplete(books_);
                 setLoadingAllBooks(false);
                 console.log("books complete ", bookscomplete);
