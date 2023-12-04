@@ -53,20 +53,6 @@ body{
             width: auto;
             margin: 0 20px;
         }
-        .avatar-container{
-            display: flex;
-            align-items: center;
-            justify-content: end;
-            .avatar{
-                max-width: 60px;
-                height: auto;
-                border-radius: 50%;
-                border: 2px solid #fcf3f7;
-                /* margin-left: 20px;
-                margin-top: 10px; */
-                margin: 10px 20px;
-            }
-        }
         .toggle{
             display: none;
         }
@@ -81,7 +67,7 @@ body{
             }
             .cancel-a{
                 color: #fcf3f7;
-                font-family: MontaguSlab;
+                font-family: Poppins;
                 font-size: 18px;
                 text-decoration: none;
                 text-align: center;
@@ -92,14 +78,16 @@ body{
                 }
             }
         }
-        .books{
+        .books-user{
+            margin: 0 40px;
             display: flex;
             justify-content: start;
             align-items: center;
             color: #fcf3f7;
-            font-family: MontaguSlab;
+            font-family: Poppins;
             font-size: 15px;
             margin-top: 30px;
+            font-weight: normal;
         }
     }
     .content{
@@ -113,12 +101,6 @@ body{
         display: flex;
         font-size: 10px;
         justify-content: center;
-    }
-    .avatar-container{
-        display: block; 
-        position: absolute;
-        top: 5px;
-        right: 10px;
     }
     .uam{
         display: none;

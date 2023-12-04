@@ -11,6 +11,7 @@ import {Footer} from '../../components/Footer/Footer'
 import { MenuUser } from '../../components/MenuUser/MenuUser';
 import { Section4 } from '../../components/Sections/Section4/Section4';
 import { Section5 } from '../../components/Sections/Section5/Section5';
+import { Section6 } from '../../components/Sections/Section6/Section6';
 
 export const User = () => {
     return (
@@ -24,6 +25,7 @@ export const User = () => {
                 <Section2 />
                 <Section3/>
                 <Section4/>
+                <Section6/>
                 {/* <LateralMenu/> */}
                 <Footer/>
             </div>

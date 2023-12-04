@@ -96,9 +96,9 @@ export const ListCategories = () => {
     };
 
     return (
-        <div>
+        <div className='container-categories'>
             <Grid container spacing={0}>    
-            <TableContainer component={Paper} aria-label="customized table" className='table-container'>
+            <TableContainer component={Paper} aria-label="customized table" className='table-container-categories'>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -122,12 +122,14 @@ export const ListCategories = () => {
                 </Table>
             </TableContainer>
             <Grid md={12} xs={12}>
-                <Button type="primary" onClick={showModal}>
-                    Agregar Categoría
-                </Button>
-                <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                    <Categorias/>
-                </Modal>
+                <div className='btn-add-categorie'>
+                    <Button type="primary" onClick={showModal} className='btn-categories'>
+                        Agregar Categoría
+                    </Button>
+                    <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                        <Categorias/>
+                    </Modal>
+                </div>
             </Grid>
             </Grid>
         </div>

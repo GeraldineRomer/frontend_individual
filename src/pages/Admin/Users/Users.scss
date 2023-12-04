@@ -2,26 +2,8 @@
 
 
     .table-container{
-        height: 400px;
+        height: 450px;
         margin: 10px;
-        .off-icon{
-            color: red;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .off-icon.active{
-            color: green;
-            transition: color 0.3s ease;
-        }
-        .on-icon{
-            color: green;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .on-icon.active{
-            color: red;
-            transition: color 0.3s ease;
-        }
     }
     .pagination{
         display: flex;

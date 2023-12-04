@@ -80,7 +80,7 @@ export const Pdf = () => {
     };
     return (
         <div>
-            <Button type="primary" onClick={generatePDF}>
+            <Button type="primary" onClick={generatePDF} className='btn-pdf'>
                 Generar PDF
             </Button>
         </div>

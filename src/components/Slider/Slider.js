@@ -12,14 +12,14 @@ import { Button, Grid, Fab } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Add, Star } from '@mui/icons-material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useFavorites } from '../FavoriteList/FavoriteList';
-import { useAdds } from '../AddList/AddList';
 
 const Slider = ({ libros }) => {
 
     const [open, setOpen] = React.useState(false);
     const [selectedLibro, setSelectedLibro] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -34,6 +34,11 @@ const Slider = ({ libros }) => {
         };
     }, []);
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token); // Verificar si hay un token en localStorage
+    }, []);
+
     const handleOpen = (libro) => {
         setSelectedLibro(libro)
         setOpen(true)
@@ -44,17 +49,15 @@ const Slider = ({ libros }) => {
     };
 
     const { addFavorite } = useFavorites();
-    const { addAdd } = useAdds();
 
     const handleAddToFavorite = (notice) => {
+        const token = localStorage.getItem('access');
+        if (!token) {
+            window.location.href = '/login'; // Redireccionar al login si no hay token en localStorage
+            return;
+        }
         if (notice) {
             addFavorite(notice); // Agregar el ID a la lista de favoritos a través del contexto
-        }
-    };
-
-    const handleAddToAdd = (notice) => {
-        if (notice) {
-            addAdd(notice); // Agregar el ID a la lista de favoritos a través del contexto
         }
     };
 
@@ -74,7 +77,7 @@ const Slider = ({ libros }) => {
         display: 'flex',
         flexDirection: 'column',
         borderRadius: '10px',
-        background: '#47101F',
+        background: 'linear-gradient(to bottom, #8C2844, #47101F)',
         maxHeight: '85vh',
         maxWidth: '100vw',
         overflow: 'auto',
@@ -137,7 +140,7 @@ const Slider = ({ libros }) => {
                                                     <div className='info'>
                                                         <label>{libro.title}</label>
                                                         <label>{libro.author}</label>
-                                                        <label>{libro.price}</label>
+                                                        <label>${libro.price}</label>
                                                         <Button variant="contained" className='btn' onClick={() => handleOpen(libro)}>Ver más</Button>
                                                     </div>
                                                 </Grid>
@@ -160,7 +163,7 @@ const Slider = ({ libros }) => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} md={6} className='book-modal'>
                                         <img 
-                                            src={selectedLibro.image} 
+                                            src={`data:image/png;base64,${selectedLibro.images[0]}`}
                                             alt={`Portada de ${selectedLibro.title}`} 
                                             style={{ 
                                                 width: isSmallScreen ? '50%' : '100%', 
@@ -177,10 +180,7 @@ const Slider = ({ libros }) => {
                                         />
                                         <div className="button-fav-group">
                                             <Fab className="btn-icon" color="" aria-label="Favorite icon" onClick={() => handleAddToFavorite(selectedLibro)}>
-                                                <Star/>
-                                            </Fab>
-                                            <Fab className="btn-icon" color="" aria-label="Add icon" onClick={() => handleAddToAdd(selectedLibro)}>
-                                                <Add/>
+                                                <FavoriteIcon/>
                                             </Fab>
                                         </div>
                                     </Grid>
@@ -232,7 +232,7 @@ const Slider = ({ libros }) => {
                                                     top: '60px'
                                                     }}
                                         >
-                                            {selectedLibro.price}
+                                            ${selectedLibro.price}
                                         </Typography>
                                         <Typography 
                                             id="modal-modal-description" 

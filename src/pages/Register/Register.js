@@ -72,11 +72,13 @@ export const Register = () => {
         lastname: Yup.string().required('El apellido es requerido'),
         email: Yup.string().email('El correo electrónico no es válido').required('El correo electrónico es requerido')
             .matches(/@(gmail|outlook)\.com$/, 'El correo debe ser de Gmail o Outlook'),
-        password: Yup.string().required('La contraseña es requerida'),
+        password: Yup.string().required('La contraseña es requerida').
+                    matches(/^(?=.[a-z])(?=.[A-Z])(?=.*\d).{8,}$/,
+                            "Contraseña: 1 mayúscula, 1 minúscula, 1 número, mínimo 8 caracteres."),
         confirmPassword: Yup.string()
                             .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
                             .required('Debes confirmar la contraseña'),
-        document: Yup.string().required('El documento es requerido'),
+        document: Yup.string().required('El documento es requerido').matches(/^[0-9]+$/, "El número de documento debe contener solo números"),
         document_type: Yup.string().required('El tipo de documento es requerido').
                         oneOf(
                         [

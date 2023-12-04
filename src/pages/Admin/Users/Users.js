@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Users.scss';
-import { Grid, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from '@mui/material';
+import { Grid, Pagination, Paper, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from '@mui/material';
 import { GetUsers, toggleUserRole } from '../../../api/admin';
-import ToggleOnIcon from '@mui/icons-material/ToggleOn';
-import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import { Auth } from '../../../api';
 
 const authController = new Auth();
@@ -31,7 +29,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const Users = () => {
 
     const [token,setToken] = useState(null);
-    const [userActive, setUserActive] = useState(false);
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -63,9 +60,19 @@ export const Users = () => {
         checkUserSession();
     }, [currentPage]);
 
-    const handleToggleUserRole = async (userId, currentActiveStatus) => {
-        await toggleUserRole(userId, currentActiveStatus, token, users);
-        setUserActive(prevState => !prevState);
+    const handleCategorySwitchChange = async (event, userId, currentActiveStatus) => {
+        try {
+            const updatedUser = users.map(user => {
+                if (user._id === userId) {
+                    return { ...user, active: !user.active };
+                }
+                return user;
+            });
+            setUsers(updatedUser);
+            await await toggleUserRole(userId, currentActiveStatus, token, users);
+        } catch (error) {
+            console.error("Error al cambiar el estado de la categoría:", error);
+        }
     };
 
     const handlePageChange = (event, value) => {
@@ -106,13 +113,11 @@ export const Users = () => {
                                 <StyledTableCell align="center">{user.email}</StyledTableCell>
                                 <StyledTableCell align="center">{user.role}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {user.active ? 
-                                        (<ToggleOnIcon className='on-icon' onClick={() => handleToggleUserRole(user._id, user.active)} />)
-                                        : 
-                                        (<ToggleOffIcon className='off-icon' onClick={() => handleToggleUserRole(user._id, user.active)} />)
-                                    }
+                                    <Switch
+                                        checked={user.active} 
+                                        onChange={(event) => handleCategorySwitchChange(event, user._id, user.active)} // Manejador de cambio
+                                    />
                                 </StyledTableCell>
-                                {/* Agrega aquí las celdas para los otros campos del usuario */}
                             </StyledTableRow>
                         ))}
                     </TableBody>

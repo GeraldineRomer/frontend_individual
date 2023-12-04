@@ -143,14 +143,24 @@ export const Books = () => {
 
     //mostrar modal para agregar categoria
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpenBook, setIsModalOpenBook] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
+    };
+    const showModalBook = () => {
+        setIsModalOpenBook(true);
     };
     const handleOk = () => {
         setIsModalOpen(false);
     };
+    const handleOkBook = () => {
+        setIsModalOpenBook(false);
+    };
     const handleCancel = () => {
         setIsModalOpen(false);
+    };
+    const handleCancelBook = () => {
+        setIsModalOpenBook(false);
     };
     
     //mostrar libros por filtros
@@ -162,24 +172,10 @@ export const Books = () => {
         setValue(newValue);
         setSelectedCategoryAvailability(newValue);
         filterBooks(newValue, selectedAvailability);
-        /* if (newValue === null) {
-            // Si se borra la selección, mostrar todos los libros
-            setFilteredBooks(bookscomplete);
-            setSelectedCategory(null);
-        } else if (newValue.name === 'Todo') {
-            setFilteredBooks(books);
-        } else {
-            setSelectedCategory(newValue);
-            const booksForSelectedCategory = bookscomplete.filter(book => {
-                return book.category._id === newValue._id;
-            });
-            setFilteredBooks(booksForSelectedCategory); // Mostrar libros de la categoría seleccionada
-        } */
     };
 
     //cambiar estado de libros
     // Estado para la cantidad de libros activados
-    const [allBooks, setAllBooks] = useState([]); 
     const [alert, setAlert] = useState({ type: '', message: '' });
     const handleActiveCheckboxChange = async (event, bookId) => {
         try {
@@ -258,16 +254,6 @@ export const Books = () => {
         setValueAvailable(newValue); // Actualizar valor seleccionado en el Autocomplete
         setSelectedAvailability(newValue);
         filterBooks(selectedCategoryAvailability, newValue);
-        /* if (newValue === null) {
-            // Si se borra la selección, mostrar todos los libros
-            setFilteredBooks(bookscomplete);
-        } else if (newValue.name === 'Disponible') {
-            const availableBooks = bookscomplete.filter(book => book.status === true);
-            setFilteredBooks(availableBooks); // Mostrar libros disponibles
-        } else if (newValue.name === 'No disponible') {
-            const unavailableBooks = bookscomplete.filter(book => book.status === false);
-            setFilteredBooks(unavailableBooks); // Mostrar libros no disponibles
-        } */
     };
 
     //filtrar por categoría y disponibilidad
@@ -302,18 +288,29 @@ export const Books = () => {
         }
     };
 
+    // Función para manejar el cambio de estado para ver la descripción completa
+    const [expandedDescriptions, setExpandedDescriptions] = useState({});
+    const handleToggleDescription  = (bookId) => {
+        setExpandedDescriptions({
+            ...expandedDescriptions,
+            [bookId]: !expandedDescriptions[bookId],
+        });
+    };
+    const isDescriptionExpanded = (bookId) => {
+        return expandedDescriptions[bookId] || false;
+    };
+
     return (
-        <div>
-            <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <div className='books-container'>
+            <Box className='autocompletes'>
                 <Autocomplete
                     value={value}
                     onChange={handleAutocompleteChange}
                     options={categories.filter(category => category.active)}
                     getOptionLabel={(option) => option.name}
                     renderInput={(params) => <TextField {...params} label="Categorías" />}
+                    className='autocomplete'
                 />
-            </Box>
-            <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 <Autocomplete
                     value={valueAvailable}
                     onChange={handleAvailabilityChange}
@@ -324,10 +321,11 @@ export const Books = () => {
                     ]}
                     getOptionLabel={(option) => option.name}
                     renderInput={(params) => <TextField {...params} label="Disponibilidad" />}
+                    className='autocomplete'
                 />
             </Box>
                 <Grid container spacing={0}>    
-                <TableContainer component={Paper} aria-label="customized table" className='table-container' value={value}>
+                <TableContainer component={Paper} aria-label="customized table" className='table-container-books' value={value}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
@@ -346,18 +344,40 @@ export const Books = () => {
                                 <StyledTableCell align="center">
                                     <img 
                                         src={`data:image/png;base64,${book.images[0]}`} 
-                                        alt={book.title} 
-                                        style={{ width: '100px', height: '100px' }} 
+                                        alt={book.title}  
+                                        className='img-book-data'
                                     />
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{book.title}</StyledTableCell>
                                 <StyledTableCell align="center">{book.author}</StyledTableCell>
-                                <StyledTableCell align="center">{book.description}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {book.description.length > 70 ? (
+                                        <>
+                                            {isDescriptionExpanded(book._id) ? (
+                                                // Si la descripción está expandida, mostrar "Ver menos" y la descripción completa
+                                                <>
+                                                    {book.description}
+                                                    <a onClick={() => handleToggleDescription(book._id)}> Ver menos</a>
+                                                </>
+                                            ) : (
+                                                // Si no está expandida, mostrar los primeros 70 caracteres y "Ver más"
+                                                <>
+                                                    {`${book.description.substring(0, 70)}... `}
+                                                    <a onClick={() => handleToggleDescription(book._id)}> Ver más</a>
+                                                </>
+                                            )}
+                                        </>
+                                    ) : (
+                                        // Si la descripción es corta, mostrarla sin la lógica de "ver más"
+                                        <>{book.description}</>
+                                    )}
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{book.price}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Switch
                                         checked={book.status} 
                                         onChange={(event) => handleActiveSwitchChange(event, book._id)}
+                                        className='switch-book'
                                     />
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
@@ -372,19 +392,21 @@ export const Books = () => {
                     </Table>
                 </TableContainer>
                 <Grid item md={12} xs={12}>
-                    <Button type="primary" onClick={showModal}>
-                        Agregar Categoría
-                    </Button>
-                    <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                        <Categorias/>
-                    </Modal>
-                    <Button type="primary" onClick={showModal}>
-                        Agregar Libro
-                    </Button>
-                    <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                        <RegisterBooks/>
-                    </Modal>
-                    <Pdf/>
+                    <div className='btn-books'>
+                        <Button type="primary" onClick={showModal} className='button'>
+                            Agregar Categoría
+                        </Button>
+                        <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                            <Categorias/>
+                        </Modal>
+                        <Button type="primary" onClick={showModalBook} className='button'>
+                            Agregar Libro
+                        </Button>
+                        <Modal open={isModalOpenBook} onOk={handleOkBook} onCancel={handleCancelBook}>
+                            <RegisterBooks/>
+                        </Modal>
+                        <Pdf />
+                    </div>
                     {alert.type === 'warning' && (
                         <Alert variant="outlined" severity="error">
                             {alert.message}
@@ -392,7 +414,7 @@ export const Books = () => {
                     )}
                 </Grid>
                     <Grid item md={12} xs={12}>
-                        <Stack spacing={2} className='pagination'>
+                        <Stack spacing={2} className='pagination-books'>
                             <Pagination
                                 count={totalPages}
                                 page={currentPage}

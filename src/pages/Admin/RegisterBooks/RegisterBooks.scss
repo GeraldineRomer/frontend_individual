@@ -1,0 +1,48 @@
+.register-books{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    .title-author{
+        display: flex;
+        flex-direction: row;
+        margin: 5px;
+        justify-content: space-around;
+        .field{
+            width: 200px;
+            margin: 5px;
+        }
+    }
+    .price-categories{
+        display: flex;
+        flex-direction: row;
+        margin: 5px;
+        justify-content: space-around;
+        .field{
+            width: 200px;
+            margin: 5px;
+        }
+    }
+    .description-available{
+        display: flex;
+        flex-direction: row;
+        margin: 5px;
+        justify-content: space-around;
+        .field{
+            width: 400px;
+            margin: 5px;
+        }
+    }
+    .file-acept{
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+        .btn-file{
+            margin: 10px;
+            background-color: #47101F;
+            &:hover{
+                background-color: #8C2844;
+            }
+        }
+    }
+}

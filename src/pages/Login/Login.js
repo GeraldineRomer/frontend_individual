@@ -31,6 +31,18 @@ export const Login = () => {
             try {
                 setError('');
                 const response = await authController.login(values);
+
+                // Verificar si el correo no se encuentra en la base de datos
+                if (response && response.error && response.error.emailNotFound) {
+                    setError('El correo electrónico no está registrado');
+                    return; // Detener la ejecución
+                }
+                // Verificar si la contraseña es incorrecta
+                if (response && response.error && response.error.invalidPassword) {
+                    setError('La contraseña es incorrecta');
+                    return; // Detener la ejecución
+                }
+                
                 if (response.active === false) {
                     window.location.href = '/noVerify';
                 }

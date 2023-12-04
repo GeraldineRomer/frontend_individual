@@ -100,7 +100,7 @@ export const MenuCube = () => {
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link onClick={login}>Iniciar Sesión</Link>
+                                            <Link onClick={login} id='login'>Iniciar Sesión</Link>
                                         </li>
                                     </ul>
                                 </div>

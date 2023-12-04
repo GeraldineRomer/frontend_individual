@@ -8,7 +8,8 @@
     .card-favorites{
         width: 1000px;
         height: auto;
-        background-color: #efb2cc;
+        background-color: #F9EAF1;
+        border: 2px solid #47101F;
        /*  margin: 30px; */
         margin-top: 50px;
         border-radius: 10px;
@@ -36,55 +37,6 @@
             margin-bottom: 40px;
             flex-direction: row;
             .img-list{
-                display: flex;
-                margin-top: 30px;
-                width: 180px;
-                height: auto;
-                margin-left: 30px;
-            }
-            .info{
-                flex-direction: column;
-                margin-left: 10px;
-                align-items: flex-start;
-                margin-right: 20px;
-                text-align: left;
-                color: #47101F;
-                .text{
-                    font-weight: normal;
-                }
-            }
-        }
-    }
-    .card-add{
-        width: 1000px;
-        height: auto;
-        background-color: #efb2cc;
-       /*  margin: 30px; */
-        margin-top: 50px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 50px;
-        .title{
-            display: flex;
-            justify-content: end;
-            color: #632033;
-        }
-        .icon-add{
-            margin: 10px;
-            color: #632033;
-            justify-content: start;
-            .add {
-                font-size: 50px;
-            }
-        }
-        .card-add2{
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-            flex-direction: row;
-            .img-list-add{
                 display: flex;
                 margin-top: 30px;
                 width: 180px;

@@ -65,7 +65,7 @@ export const Categorias = () => {
                     checked={activo} 
                     onChange={handleSwitchChange}    
                 />
-                <Button variant="contained" onClick={handleAceptarClick}>Aceptar</Button>
+                <Button variant="contained" onClick={handleAceptarClick} className='btn-add'>Aceptar</Button>
             </div>
         </div>
     )
