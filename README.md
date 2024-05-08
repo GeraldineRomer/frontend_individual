@@ -9,7 +9,7 @@ Proyecto final para la materia Programación Frontend. Se hace el implemento del
 
 Este sistema permite diferentes funciones dependiendo del rol. El administrador tiene el permiso de hacer un CRUD de usuarios, libros y autores. El usuario podrá agregar libros a un carrito de compras, al igual que editar su perfil, cerrar sesión y desactivar su cuenta.
 
-Es importante tener en cuenta que este sistema funciona de la mano de un backend. El cual se encuentra en este link: 
+Es importante tener en cuenta que este sistema funciona de la mano de un backend. El cual se encuentra en este link: https://github.com/GeraldineRomer/backend_individual
 
 ## :hammer:Funcionalidades del proyecto
 
@@ -24,8 +24,8 @@ Es importante tener en cuenta que este sistema funciona de la mano de un backend
 
 Para ejecutar este proyecto, se debe correr los siguientes comandos. Recuerda contar con NodeJS o NPM ya instalados:
 
-Descargar e instalar las dependencias: ### `npm i`
-Ejecutar el proyecto: ### `npm start` o ### `yarn start`
+- Descargar e instalar las dependencias: `npm i`
+- Ejecutar el proyecto: `npm start` o `yarn start`
 
 :warning: Recuerda que con esto solo tendrás el frontend activo, para ver su funcionalidad completa debes inicializar también el backend de este proyecto :warning:
 
