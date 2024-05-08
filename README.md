@@ -20,7 +20,7 @@ Es importante tener en cuenta que este sistema funciona de la mano de un backend
 - `Envío de correos electrónicos`: envío de correos electrónicos para activación de cuentas y cambios de contraseñas. :construction: Proceso :construction:
 - `CRUD`: CRUD de libros, usuarios y autores. :construction: Proceso :construction:
 
-\## 🛠️ Abre y ejecuta el proyecto
+## 🛠️ Abre y ejecuta el proyecto
 
 Para ejecutar este proyecto, se debe correr los siguientes comandos. Recuerda contar con NodeJS o NPM ya instalados:
 
@@ -29,7 +29,7 @@ Ejecutar el proyecto: ### `npm start` o ### `yarn start`
 
 :warning: Recuerda que con esto solo tendrás el frontend activo, para ver su funcionalidad completa debes inicializar también el backend de este proyecto :warning:
 
-\## :computer: Tecnologías utilizadas
+## :computer: Tecnologías utilizadas
 - NodeJS
 - ReactJS
 - Scss
