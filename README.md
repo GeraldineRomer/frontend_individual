@@ -19,6 +19,7 @@ Es importante tener en cuenta que este sistema funciona de la mano de un backend
 - `Generar PDF`: generar una tabla de PDF sobre aquellos libros que no están disponibles.
 - `Envío de correos electrónicos`: envío de correos electrónicos para activación de cuentas y cambios de contraseñas. :construction: Proceso :construction:
 - `CRUD`: CRUD de libros, usuarios y autores. :construction: Proceso :construction:
+- `Validación de datos`: los campos de los formularios muestran errores en caso de que el usuario ingrese algo que no es aceptado.
 
 ## 🛠️ Abre y ejecuta el proyecto
 
@@ -34,3 +35,6 @@ Para ejecutar este proyecto, se debe correr los siguientes comandos. Recuerda co
 - ReactJS
 - Scss
 - MUI
+- JavaScript
+- Formik
+- Yup
