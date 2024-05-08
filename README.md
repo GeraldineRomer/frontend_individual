@@ -1,71 +1,36 @@
-# Getting Started with Create React App
+<h1 align="center">Librería</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="left">
+   <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
+</p>
 
-## Available Scripts
+## Descripción del proyecto
+Proyecto final para la materia Programación Frontend. Se hace el implemento del frontend de una página web con la temática de una librería permitida para la vista desde cualquier pantalla (responsive) y con la experiencia y diseño de usuario (UX/UI). Cuenta con panel de admin, usuario y principal, es decir, el que se ve a primera vista. 
 
-In the project directory, you can run:
+Este sistema permite diferentes funciones dependiendo del rol. El administrador tiene el permiso de hacer un CRUD de usuarios, libros y autores. El usuario podrá agregar libros a un carrito de compras, al igual que editar su perfil, cerrar sesión y desactivar su cuenta.
 
-### `npm start`
+Es importante tener en cuenta que este sistema funciona de la mano de un backend. El cual se encuentra en este link: 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## :hammer:Funcionalidades del proyecto
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `UX/UI`: panel responsive, apto para cualquier pantalla.
+- `Interacción con elementos`: interacción con elementos como imágenes, botones, modales, entre otros, donde el usuario puede tener elementos más claros.
+- `Subir archivos`: cargar imágenes.
+- `Generar PDF`: generar una tabla de PDF sobre aquellos libros que no están disponibles.
+- `Envío de correos electrónicos`: envío de correos electrónicos para activación de cuentas y cambios de contraseñas. :construction: Proceso :construction:
+- `CRUD`: CRUD de libros, usuarios y autores. :construction: Proceso :construction:
 
-### `npm test`
+\## 🛠️ Abre y ejecuta el proyecto
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Para ejecutar este proyecto, se debe correr los siguientes comandos. Recuerda contar con NodeJS o NPM ya instalados:
 
-### `npm run build`
+Descargar e instalar las dependencias: ### `npm i`
+Ejecutar el proyecto: ### `npm start` o ### `yarn start`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+:warning: Recuerda que con esto solo tendrás el frontend activo, para ver su funcionalidad completa debes inicializar también el backend de este proyecto :warning:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# frontend_individual
+\## :computer: Tecnologías utilizadas
+- NodeJS
+- ReactJS
+- Scss
+- MUI
